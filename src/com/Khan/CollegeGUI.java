@@ -5,6 +5,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class CollegeGUI extends JFrame {
     private JPanel mainPanel;
@@ -27,10 +28,10 @@ public class CollegeGUI extends JFrame {
     private JTextField studentTextField;
     private JTextField bldgRoomTextField;
 
-    private Controller Controller;
+    private String String;
 
 
-    protected CollegeGUI(Controller courses){
+    public CollegeGUI() {
 
         setContentPane(mainPanel);
         pack();
@@ -45,55 +46,12 @@ public class CollegeGUI extends JFrame {
         tableModel.addColumn("Time");
 
         // Adds initial data to the JTable DefaultTableModel
-        for(String course: courses.keySet()){
-            tableModel.addRow(new String[]{course, courses.get(course)});
 
-        }
-
-          addClassButton.addActionListener(new ActionListener() {
-              @Override
-              public void actionPerformed(ActionEvent e) {
-
-                // Read data from JTextFields
-               String courseID = courseIDTextField.getUIClassID();
-               String className  = ClassNameTextField.getName();
-               String Instructor = instructorTextField.getName();
-               String classTime = classTimeTextField.getUIClassID();
-               String Days = daysTextField.getUIClassID();
-               String bldgRoom = bldgRoomTextField.getName();
-               String studentInstructorID = studentInstructorIDTextField.getUIClassID();
-               tableModel.addRow(new String[]{courseID,className,Instructor,classTime,Days,bldgRoom});
-
-              // courseID.setText("Enter course to add");
-
-          RegistrationButton.addActionListener(new ActionListener() {
-              @Override
-              public void actionPerformed(ActionEvent e) {
-                  enterCourse.setText("Schedule Updated");
-              }
-          });
-              }
-          });
-             }
-
-    public CollegeGUI() {
 
     }
 
 
-    public void setListData(ArrayList<CollegeProgram> allData) {
-
-    }
 }
-
-
-
-
-
-
-
-
-
 
 
 

@@ -19,12 +19,6 @@ public class CollegeDB {
 
 
     private String createTableSQL = "CREATE TABLE IF NOT EXISTS students(id INTEGER PRIMARY KEY, courseID TEXT, className TEXT, Instructor TEXT,ClassTime TEXT, Days TEXT, bldgRoom TEXT )";
-    private String PRINT_CLASS_ROSTER = "SELECT * FROM students";
-
-    CollegeDB() {
-        createTable();
-
-    }
 
     private void createTable() {
 
@@ -48,16 +42,12 @@ public class CollegeDB {
         }
     }
 
-
-      private  String createTableSQL1 = "CREATE TABLE IF NOT EXISTS instructors (id INTEGER PRIMARY KEY, instructorID TEXT, className TEXT, classTime TEXT, Days TEXT, bldgRoom TEXT)";
-         String PRINT_CLASS_ROSTER1 = "SELECT * FROM instructors";
-
-
-
-        public ArrayList<CollegeProgram> fetchAllRecords () {
-            return null;
-        }
+    public ArrayList<CollegeProgram> fetchAllRecords() {
+        return null;
     }
+}
+
+
 
 
 
