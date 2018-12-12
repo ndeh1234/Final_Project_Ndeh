@@ -21,10 +21,13 @@ public class CollegeDB {
         Connection connection = DriverManager.getConnection(DB_CONNECTION_URL);
         Statement statement = connection.createStatement();
 
+          // Create the course table
+        
         String createTableSql = "CREATE TABLE IF NOT EXISTS courses(id INTEGER PRIMARY KEY, courseID TEXT, className TEXT, Instructor TEXT,ClassTime TEXT, Days TEXT, bldgRoom TEXT )";
         statement.execute(createTableSql);
 
 
+          // Populating the course table
 
         String insertDataSql =("INSERT INTO courses(courseID,className,Instructor,ClassTime,Days,bldgRoom) VALUES('ITEC2545','Java Programing','Brian','9:45am-12:30pm','Tu/Wed','T3030')");
         statement.execute(insertDataSql);
@@ -35,6 +38,7 @@ public class CollegeDB {
         String getAllCoursesSql = "SELECT * FROM courses";
         ResultSet allCourses = statement.executeQuery(getAllCoursesSql);
 
+               // Loop over the result set using next method() in a while loop
         while(allCourses.next()){
             String courseID = allCourses.getString("CourseID");
             String courseName = allCourses.getString("className");
@@ -46,7 +50,7 @@ public class CollegeDB {
             System.out.printf("%s %s holds on %s at %s in %s and the %s name is\n", courseID, courseName, professor, time, days, hallNumber);
 
         }
-         allCourses.close();
+            allCourses.close();  // close result set
 
     }
 }
