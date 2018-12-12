@@ -15,7 +15,7 @@ public class Controller {
     private void startApp() {
 
         db = new CollegeDB();
-        ArrayList<CollegeProgram> allData = db.fetchAllRecords();
+        
 
     }
 }
