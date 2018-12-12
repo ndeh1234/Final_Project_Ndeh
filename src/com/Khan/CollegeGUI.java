@@ -28,11 +28,11 @@ public class CollegeGUI extends JFrame {
     private JTextField studentTextField;
     private JTextField bldgRoomTextField;
 
-    private String String;
+    private CollegeDB db;
 
 
     public CollegeGUI() {
-
+        
         setContentPane(mainPanel);
         pack();
         setVisible(true);
@@ -49,6 +49,7 @@ public class CollegeGUI extends JFrame {
 
 
     }
+
 
 
 }
