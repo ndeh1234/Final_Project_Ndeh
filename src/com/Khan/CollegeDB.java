@@ -1,22 +1,23 @@
 package com.Khan;
 
+import javax.swing.table.DefaultTableModel;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Vector;
 
+import static javax.xml.ws.soap.AddressingFeature.ID;
 import static sun.plugin.javascript.navig.JSType.URL;
 
 public class CollegeDB {
 
 
     String url = "jdbc:sqlite:college.sqlite";   // Connection String
-
+    
     private static final String TABLE_NAME1 = "students";
     private static final String TABLE_NAME2 = "instructors";
     private static final String TABLE_NAME3 = "courses";
     private static final String TABLE_NAME4 = "section";
     private static final String TABLE_NAME5 = "prerequisites";
+
 
 
     public static void main(String[] args) throws SQLException {
@@ -25,9 +26,10 @@ public class CollegeDB {
         Statement statement = connection.createStatement();
 
         // Create the course table
-
         String createTableSql = "CREATE TABLE IF NOT EXISTS courses(id INTEGER PRIMARY KEY, courseID TEXT, className TEXT, Instructor TEXT,ClassTime TEXT, Days TEXT, bldgRoom TEXT )";
-        statement.execute(createTableSql);
+       statement.execute(createTableSql);
+
+
 
 
         // Populating the course table
@@ -105,6 +107,47 @@ public class CollegeDB {
 
          return colNames;
     }
+       // Getting data to store to be stored as String
+
+     Vector<Vector> getAllCourses() {
+        try(Connection connection = DriverManager.getConnection(url)){
+            Statement statement = connection.createStatement();
+
+            ResultSet rs =  statement.executeQuery(getAllCourses())
+
+            Vector<Vector>Vectors = new Vector<>();
+
+            int id;
+            String courseID , className,Instructor,classTime,Days,bldgRoom;
+
+             while(rs.next()){
+                 id = rs.getInt(ID);
+                 courseID = rs.getString(courseID);
+                 className = rs.getString(className);
+                 Instructor = rs.getString(Instructor);
+                 classTime = rs.getString(classTime);
+                 Days = rs.getString(Days);
+                 bldgRoom = rs.getString(bldgRoom);
+                 Vector v = new Vector();
+                 v.add(id); v.add(courseID); v.add(className); v.add(Instructor);
+                 v.add(classTime);v.add(Days);v.add(bldgRoom);
+                 Vectors.add(v);
+
+                 return Vectors;
+
+             }
+        } catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+
+         return null;
+     }
+
+    public Vector getAllStudents() {
+        return null;
+    }
+
+    DefaultTableModel tableModel = new DefaultTableModel();
 }
 
 

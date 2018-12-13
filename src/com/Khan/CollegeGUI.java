@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Vector;
 
 public class CollegeGUI extends JFrame {
     private JPanel mainPanel;
@@ -32,10 +33,11 @@ public class CollegeGUI extends JFrame {
 
 
     public CollegeGUI() {
-        
+
         setContentPane(mainPanel);
         pack();
         setVisible(true);
+        configureTable();
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         final DefaultTableModel tableModel = new DefaultTableModel();
@@ -45,11 +47,18 @@ public class CollegeGUI extends JFrame {
         tableModel.addColumn("Days");
         tableModel.addColumn("Time");
 
-        // Adds initial data to the JTable DefaultTableModel
 
 
     }
 
+    private void configureTable() {
+
+       Vector columNames= db.getColumnNames();
+       Vector data = db.getAllStudents();
+       DefaultTableModel tableModel = new DefaultTableModel(data, columNames);
+
+
+    }
 
 
 }
