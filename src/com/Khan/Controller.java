@@ -1,8 +1,5 @@
 package com.Khan;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 public class Controller {
 
     private CollegeGUI gui;
@@ -14,7 +11,7 @@ public class Controller {
 
     private void startApp() {
 
-        db = new CollegeDB();
+        db = new CollegeDB(courseID, sections, className, creditHours, Instructor, classTime, days, bldgRoom);
 
 
     }

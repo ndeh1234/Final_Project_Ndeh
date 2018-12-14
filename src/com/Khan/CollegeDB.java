@@ -1,159 +1,155 @@
 package com.Khan;
 
-import javax.swing.table.DefaultTableModel;
 import java.sql.*;
-import java.util.Vector;
+import java.util.ArrayList;
 
-import static javax.xml.ws.soap.AddressingFeature.ID;
 import static sun.plugin.javascript.navig.JSType.URL;
 
 public class CollegeDB {
 
 
     String url = "jdbc:sqlite:college.sqlite";   // Connection String
-    
+
+    // Declare and innitialize table column  names
+
     private static final String TABLE_NAME1 = "students";
     private static final String TABLE_NAME2 = "instructors";
     private static final String TABLE_NAME3 = "courses";
-    private static final String TABLE_NAME4 = "section";
+    private static final String TABLE_NAME4 = "sections";
     private static final String TABLE_NAME5 = "prerequisites";
+    static final String ID_COL = "courseID";
+    static final String SECTION_COL = "section";
+    static final String CNAME_COL = "className";
+    static final String CrHr_COL = "creditHours";
+    static final String INSTRUCTOR_COL = "Instructor";
+    static final String CTIME_COL = "classTime";
+    static final String DAYS_COL = "days";
+    static final String BLDGROOM_COL = "bldgRoom";
 
 
-
-    public static void main(String[] args) throws SQLException {
-
-        Connection connection = DriverManager.getConnection(URL);
-        Statement statement = connection.createStatement();
-
-        // Create the course table
-        String createTableSql = "CREATE TABLE IF NOT EXISTS courses(id INTEGER PRIMARY KEY, courseID TEXT, className TEXT, Instructor TEXT,ClassTime TEXT, Days TEXT, bldgRoom TEXT )";
-       statement.execute(createTableSql);
-
-
-
-
-        // Populating the course table
-
-        String insertDataSql = ("INSERT INTO courses(courseID,className,Instructor,ClassTime,Days,bldgRoom) VALUES('ITEC2545','Java Programing','Brian','9:45am-12:30pm','Tu/Wed','T3030')");
-        statement.execute(insertDataSql);
-
-        insertDataSql = ("INSERT INTO  courses (courseID,className,Instructor,ClassTime,Days,bldgRoom) VALUES('ITEC2425','Steve','12:30pm-3:00pm', 'Thu','T300')");
-        statement.execute(insertDataSql);
-
-        String getAllCoursesSql = "SELECT * FROM courses";
-        ResultSet allCourses = statement.executeQuery(getAllCoursesSql);
-
-        // Loop over the result set using next method() in a while loop
-        while (allCourses.next()) {
-            String courseID = allCourses.getString("CourseID");
-            String courseName = allCourses.getString("className");
-            String professor = allCourses.getString("Instructor");
-            String time = allCourses.getString("classTime");
-            String days = allCourses.getString("Days");
-            String hallNumber = allCourses.getString("bldgRoom");
-
-            System.out.printf("%s %s holds on %s at %s in %s and the %s name is\n", courseID, courseName, professor, time, days, hallNumber);
-
-        }
-        allCourses.close();  // close result set
-        statement.close();   // close statement
-        connection.close(); // Close connection
-
-
-        // Create students table
-
-        createTableSql = "CREATE TABLE IF NOT EXISTS students (id INTEGER PRIMARY KEY, studentID TEXT, studentName TEXT,className TEXT, Instructor TEXT,ClassTime TEXT, Days TEXT, bldgRoom TEXT )";
-        statement.execute(createTableSql);
-        // Populate student table with data
-
-        insertDataSql = "INSERT INTO students(studentID,studentName, className,Instructor,ClassTime,Days,bldgRoom) VALUES('ITEC2545','Java Programing','Paul Mark','Brian','9:45am-12:30pm','Tu/Wed','T3030')";
-        statement.execute(insertDataSql);
-        insertDataSql = "INSERT INTO students (studentID,studentName, className,Instructor,ClassTime,Days,bldgRoom) VALUES('ITEC2545','Java Programing','Henriette Marie','Brian','9:45am-12:30pm','Tu/Wed','T3030')";
-        statement.execute(insertDataSql);
-
-        String getAllStudentsSql = "SELECT * FROM students";
-        ResultSet allStudents = statement.executeQuery(getAllStudentsSql);
-
-        // Loop over the result set
-        while (allStudents.next()) {
-
-            String studentID = allStudents.getString("StudentID");
-            String studentName = allStudents.getString("studentName");
-            String courseName = allStudents.getString("className");
-            String professor = allStudents.getString("Instructor");
-            String time = allStudents.getString("classTime");
-            String days = allStudents.getString("Days");
-            String hallNumber = allStudents.getString("bldgRoom");
-
-            System.out.printf("%s %s has %s at %s on %s in %s and the %s name is \n", studentID, studentName, courseName, time, days, hallNumber);
-
-        }
-
-        allStudents.close();  // Close result set
-        statement.close();    // Close statement
-        connection.close();  // Close connection
-
-    }
-        Vector getColumnNames(){
-
-        Vector colNames = new Vector();
-         colNames.add("ID");
-         colNames.add("courseID");
-         colNames.add("className");
-         colNames.add("Instructor");
-         colNames.add("classTime");
-         colNames.add("Days");
-         colNames.add("bldgRoom");
-
-         return colNames;
-    }
-       // Getting data to store to be stored as String
-
-     Vector<Vector> getAllCourses() {
-        try(Connection connection = DriverManager.getConnection(url)){
-            Statement statement = connection.createStatement();
-
-            ResultSet rs =  statement.executeQuery(getAllCourses())
-
-            Vector<Vector>Vectors = new Vector<>();
-
-            int id;
-            String courseID , className,Instructor,classTime,Days,bldgRoom;
-
-             while(rs.next()){
-                 id = rs.getInt(ID);
-                 courseID = rs.getString(courseID);
-                 className = rs.getString(className);
-                 Instructor = rs.getString(Instructor);
-                 classTime = rs.getString(classTime);
-                 Days = rs.getString(Days);
-                 bldgRoom = rs.getString(bldgRoom);
-                 Vector v = new Vector();
-                 v.add(id); v.add(courseID); v.add(className); v.add(Instructor);
-                 v.add(classTime);v.add(Days);v.add(bldgRoom);
-                 Vectors.add(v);
-
-                 return Vectors;
-
-             }
-        } catch (SQLException e){
-            throw new RuntimeException(e);
-        }
-
-         return null;
-     }
-
-    public Vector getAllStudents() {
-        return null;
+    CollegeDB(String courseID, String sections, String className, String creditHours, String instructor, String classTime, String days, String bldgRoom) {
+        createTable1();
     }
 
-    DefaultTableModel tableModel = new DefaultTableModel();
+
+    private void createTable1() {
+
+        try (Connection con = DriverManager.getConnection(URL)) {
+            Statement statement = con.createStatement();
+
+            String createTableSql = "CREATE TABLE IF NOT EXISTS courses ( INTEGER PRIMARY KEY, courseID TEXT, sections TEXT, className TEXT,creditHours int, Instructor TEXT,ClassTime TEXT, Days TEXT, bldgRoom TEXT ) ";
+            statement.execute(createTableSql);
+
+            String insertDataSql = "INSERT INTO courses(courseID, sectionName , className, creditHours,Instructor,ClassTime,Days,bldgRoom) VALUES('ITEC2545',01,'Java Programing',6,'Brian','9:45am-12:30pm','Tu/Wed','T3030')";
+            statement.execute(insertDataSql);
+
+        } catch (SQLException sqle) {
+
+
+            throw new RuntimeException(sqle);
+        }
+
+    }
+
+
+    private void createTable2() {
+        try (Connection con = DriverManager.getConnection(URL)) {
+            Statement statement = con.createStatement();
+
+            String createTableSql = "CREATE TABLE IF NOT EXISTS students (id INTEGER PRIMARY KEY, studentID TEXT, sFName TEXT,sLName,className TEXT, Instructor TEXT,ClassTime TEXT, Days TEXT, bldgRoom TEXT )";
+            statement.execute(createTableSql);
+
+            String insertDataSql = "INSERT INTO students(studentID,studentName, className,Instructor,ClassTime,Days,bldgRoom) VALUES('ITEC2545','Java Programing','Paul', 'Mark','Brian','9:45am-12:30pm','Tu/Wed','T3030')";
+            statement.execute(insertDataSql);
+            insertDataSql = "INSERT INTO students (studentID,sFName, sLName, className,Instructor,ClassTime,Days,bldgRoom) VALUES('ITEC2545','Java Programing','Henriette', 'Marie','Brian','9:45am-12:30pm','Tu/Wed','T3030')";
+            statement.execute(insertDataSql);
+
+
+        } catch (SQLException sqle) {
+            throw new RuntimeException(sqle);
+        }
+    }
+
+    private void createTable3() {
+        try (Connection con = DriverManager.getConnection(URL)) {
+            Statement statement = con.createStatement();
+
+            String createTableSql = " CREATE TABLE IF NOT EXISTS instructors (id INTEGER PRIMARY KEY, instructorID int, iFName TEXT, iLName TEXT, className TEXT,ClassTime TEXT, Days TEXT, bldgRoom TEXT )";
+            statement.execute(createTableSql);
+
+            String insertDataSql = "INSERT INTO instructors (instructorID,iFName,iLName, className,ClassTime,Days,bldgRoom) VALUES(001,'Paul', 'Mark','Cisco NetWorking','9:45am-12:30pm','Tu/Wed','T3030')";
+            statement.execute(insertDataSql);
+            insertDataSql = "INSERT INTO instructors (instructorID,iFName,iLName, className,ClassTime,Days,bldgRoom) VALUES(002,' Zach', 'Speedling','Computer Hardware Basics','9:45am-12:30pm','Mon/Fr','T3030')";
+            statement.execute(insertDataSql);
+
+        } catch (SQLException sqle) {
+            throw new RuntimeException(sqle);
+        }
+
+    }
+
+    private void createTable4() {
+
+        try (Connection con = DriverManager.getConnection(URL)) {
+
+            Statement statement = con.createStatement();
+
+
+            String createTableSql = " CREATE TABLE IF NOT EXISTS sections (id INTEGER PRIMARY KEY, sectionName, startTime TEXT, endTime TEXT, className TEXT, Days TEX )";
+            statement.execute(createTableSql);
+
+
+            String insertDataSql = "INSERT INTO sections ( sectionName, className, startTime, endTime, Days) VALUES('Period 1', '3:00pm','6:00pm','English101','Mon/Fr')";
+            insertDataSql = "INSERT INTO sections  (sectionName, className, startTime, endTime, Days) VALUES('Period 2', '3:00pm','6:00pm','Sociology322','Tu/Th')";
+            statement.execute(insertDataSql);
+
+        } catch (SQLException sqle) {
+            throw new RuntimeException(sqle);
+        }
+    }
+
+    // Query for all data
+
+    ArrayList<CollegeDB> fetchAllRecords() {
+        ArrayList<CollegeDB> allRecords = new ArrayList<CollegeDB>();
+
+        try (Connection con = DriverManager.getConnection(URL)) {
+
+            Statement statement = con.createStatement();
+
+            String selectAllSQL = "SELECT * FROM" + TABLE_NAME1 + TABLE_NAME2 + TABLE_NAME3 + TABLE_NAME4 + TABLE_NAME5;
+            ResultSet rsAll = statement.executeQuery(selectAllSQL);
+
+                // Loop over the result set from column to column
+
+            while (rsAll.next()) {
+                String courseID = rsAll.getString(ID_COL);
+                String sections = rsAll.getString(SECTION_COL);
+                String className = rsAll.getString(CNAME_COL);
+                String creditHours = rsAll.getString(CrHr_COL);
+                String Instructor = rsAll.getString(INSTRUCTOR_COL);
+                String classTime = rsAll.getString(CTIME_COL);
+                String days = rsAll.getString(DAYS_COL);
+                String bldgRoom = rsAll.getString(DAYS_COL);
+                CollegeDB CollegeRecords = new CollegeDB(courseID, sections, className, creditHours, Instructor, classTime, days, bldgRoom);
+
+                allRecords.add(CollegeRecords);
+
+
+            }
+
+            rsAll.close();
+
+            return allRecords;  // Returns all records
+                                // If there is no data, this will be empty
+
+        } catch (SQLException sqle) {
+
+            throw new RuntimeException(sqle);
+
+
+        }
+    }
 }
-
-
-
-
-
-
 
 

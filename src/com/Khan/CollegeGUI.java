@@ -14,55 +14,55 @@ public class CollegeGUI extends JFrame {
     private JTextField ClassNameTextField;
     private JButton dropClassButton;
     private JButton addClassButton;
-    private JTextField FirstNameTextField;
-    private JTextField MiddleNameTextField;
-    private JTextField LastNameTextField;
     private JTextField studentInstructorIDTextField;
     private JLabel CourseID;
     private JLabel courseID;
-    private JLabel enterCourse;
-    private JTable myScheduleTable;
     private JTextField courseIDTextField;
-    private JTextField classTimeTextField;
-    private JTextField daysTextField;
     private JTextField instructorTextField;
     private JTextField studentTextField;
-    private JTextField bldgRoomTextField;
+    private JTextField firstNameTextField;
+    private JTextField middleNameTextField;
+    private JTextField lastNameTextField;
+    private JScrollPane scrollPane1;
+    private JSlider ClassSize;
+    private JList ScheduleJList;
 
     private CollegeDB db;
+    DefaultListModel<CollegeDB> CourseListModel;  // Add List Model
+    private Controller controller;
 
+    public CollegeGUI(Controller controller) {
+        this.controller = controller;
 
-    public CollegeGUI() {
 
         setContentPane(mainPanel);
         pack();
         setVisible(true);
-        configureTable();
+       // configureTable();
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        final DefaultTableModel tableModel = new DefaultTableModel();
+
+        CourseListModel = new DefaultListModel<>();
+        ScheduleJList.setModel(CourseListModel);
+
+        DefaultTableModel tableModel = new DefaultTableModel();
         tableModel.addColumn("courseID");
         tableModel.addColumn("Class Name");
         tableModel.addColumn("Instructor");
         tableModel.addColumn("Days");
         tableModel.addColumn("Time");
 
+        addClassButton.addActionListener(new ActionListener() {
+                                             @Override
+                                             public void actionPerformed(ActionEvent e) {
+                                                 String name1 = firstNameTextField.getText();
+                                                 String name2 = lastNameTextField.getText();
+                                                 String courseID = courseIDTextField.getUIClassID();
 
 
+                                             }
+                                         }
+        );
     }
-
-    private void configureTable() {
-
-       Vector columNames= db.getColumnNames();
-       Vector data = db.getAllStudents();
-       DefaultTableModel tableModel = new DefaultTableModel(data, columNames);
-
-
-    }
-
-
 }
-
-
-
-
+               
