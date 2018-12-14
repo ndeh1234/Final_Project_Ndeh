@@ -1,5 +1,7 @@
 package com.Khan;
 
+import org.omg.PortableInterceptor.ORBInitInfoPackage.DuplicateName;
+
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -8,6 +10,7 @@ import static sun.plugin.javascript.navig.JSType.URL;
 public class CollegeDB {
 
 
+    private static final String OK = "OK";
     String url = "jdbc:sqlite:college.sqlite";   // Connection String
 
     // Declare and innitialize table column  names
@@ -27,7 +30,7 @@ public class CollegeDB {
     static final String BLDGROOM_COL = "bldgRoom";
 
 
-    CollegeDB(String courseID, String sections, String className, String creditHours, String instructor, String classTime, String days, String bldgRoom) {
+    CollegeDB() {
         createTable1();
     }
 
@@ -131,7 +134,7 @@ public class CollegeDB {
                 String classTime = rsAll.getString(CTIME_COL);
                 String days = rsAll.getString(DAYS_COL);
                 String bldgRoom = rsAll.getString(DAYS_COL);
-                CollegeDB CollegeRecords = new CollegeDB(courseID, sections, className, creditHours, Instructor, classTime, days, bldgRoom);
+                CollegeDB CollegeRecords = new CollegeDB();
 
                 allRecords.add(CollegeRecords);
 
@@ -150,6 +153,76 @@ public class CollegeDB {
 
         }
     }
+           // Insert new data
+
+    public String addRecord(CollegeDB collegeDB) {
+
+        String addCoursesSQL = "INSERT INTO " + TABLE_NAME1 + "VALUES ( ?, ?, ?,?, ? ,?, ? ,?)";
+        final int SQLITE_CONSTRAINT_PRIMARYKEY = 12;
+
+        try(Connection conn = DriverManager.getConnection(URL)){
+
+            PreparedStatement addCoursesPs = conn.prepareStatement(addCoursesSQL);
+
+            addCoursesPs.setString(1, CollegeDB.getCourseID());
+            addCoursesPs.setString(2, CollegeDB.getSections());
+            addCoursesPs.setString(3, CollegeDB.getClassName());
+            addCoursesPs.setString(4, CollegeDB.getCreditHours());
+            addCoursesPs.setString(5, CollegeDB.getInstructor());
+            addCoursesPs.setString(6, CollegeDB.getClassTime());
+            addCoursesPs.setString(7, CollegeDB.getDays());
+            addCoursesPs.setString(8, CollegeDB.getbldgRoom());
+
+            addCoursesPs.execute();
+
+            return OK;
+
+        } catch (SQLException sqle) {
+
+            if(sqle.getErrorCode()==SQLITE_CONSTRAINT_PRIMARYKEY){
+
+                return "Duplicate CourseID";
+
+            }else{
+                throw new RuntimeException(sqle);
+            }
+        }
+    }
+
+    private static String getbldgRoom() {
+        return null;
+    }
+
+    private static String getDays() {
+        return null;
+    }
+
+    private static String getClassTime() {
+        return null;
+    }
+
+    private static String getInstructor() {
+        return null;
+    }
+
+    private static String getCreditHours() {
+        return null;
+    }
+
+    private static String getClassName() {
+        return null;
+    }
+
+    private static String getSections() {
+        return null;
+    }
+
+    private static String getCourseID() {
+        return null;
+    }
+
+
+
 }
 
 

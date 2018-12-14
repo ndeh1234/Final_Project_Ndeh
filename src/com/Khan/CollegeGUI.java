@@ -32,7 +32,7 @@ public class CollegeGUI extends JFrame {
     private Controller controller;
 
     public CollegeGUI(Controller controller) {
-        this.controller = controller;
+
 
 
         setContentPane(mainPanel);
@@ -63,6 +63,11 @@ public class CollegeGUI extends JFrame {
                                              }
                                          }
         );
+    }
+
+
+    public void setListData(ArrayList<CollegeDB> allData) {
+
     }
 }
                
