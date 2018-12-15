@@ -17,18 +17,18 @@ public class Controller {
     private void startApp() {
         db = new CollegeDB();
 
-        ArrayList<CollegeDB> allData = db.fetchAllRecords();
+        ArrayList<CollegeProgram> allData = db.fetchAllRecords();
 
         gui = new CollegeGUI(this);
         gui.setListData(allData);
     }
 
-      ArrayList<CollegeDB> getAllData(){
+      ArrayList<CollegeProgram> getAllData(){
         return db.fetchAllRecords();
 
       }
 
-      String addCollegeDBToDatabase(CollegeDB collegeDB){
+      String addCollegeDBToDatabase(CollegeProgram collegeProgram){
         return db.addRecord();
       }
 }

@@ -35,7 +35,7 @@ public class CollegeDB {
     }
 
 
-    private void createTable1() {
+    private void createTable3() {
 
         try (Connection con = DriverManager.getConnection(URL)) {
             Statement statement = con.createStatement();
@@ -55,12 +55,16 @@ public class CollegeDB {
     }
 
 
-    private void createTable2() {
+    private void createTable1() {
         try (Connection con = DriverManager.getConnection(URL)) {
             Statement statement = con.createStatement();
 
+              // Create the students table
+
             String createTableSql = "CREATE TABLE IF NOT EXISTS students (id INTEGER PRIMARY KEY, studentID TEXT, sFName TEXT,sLName,className TEXT, Instructor TEXT,ClassTime TEXT, Days TEXT, bldgRoom TEXT )";
             statement.execute(createTableSql);
+
+             // Populate the students table
 
             String insertDataSql = "INSERT INTO students(studentID,studentName, className,Instructor,ClassTime,Days,bldgRoom) VALUES('ITEC2545','Java Programing','Paul', 'Mark','Brian','9:45am-12:30pm','Tu/Wed','T3030')";
             statement.execute(insertDataSql);
@@ -73,12 +77,16 @@ public class CollegeDB {
         }
     }
 
-    private void createTable3() {
+    private void createTable2() {
         try (Connection con = DriverManager.getConnection(URL)) {
             Statement statement = con.createStatement();
 
+              //  Create the instructor table
+
             String createTableSql = " CREATE TABLE IF NOT EXISTS instructors (id INTEGER PRIMARY KEY, instructorID int, iFName TEXT, iLName TEXT, className TEXT,ClassTime TEXT, Days TEXT, bldgRoom TEXT )";
             statement.execute(createTableSql);
+
+             // Populate the instructor table
 
             String insertDataSql = "INSERT INTO instructors (instructorID,iFName,iLName, className,ClassTime,Days,bldgRoom) VALUES(001,'Paul', 'Mark','Cisco NetWorking','9:45am-12:30pm','Tu/Wed','T3030')";
             statement.execute(insertDataSql);
@@ -90,6 +98,7 @@ public class CollegeDB {
         }
 
     }
+               // Create the section table
 
     private void createTable4() {
 
@@ -101,6 +110,7 @@ public class CollegeDB {
             String createTableSql = " CREATE TABLE IF NOT EXISTS sections (id INTEGER PRIMARY KEY, sectionName, startTime TEXT, endTime TEXT, className TEXT, Days TEX )";
             statement.execute(createTableSql);
 
+             // Populate the section table with data
 
             String insertDataSql = "INSERT INTO sections ( sectionName, className, startTime, endTime, Days) VALUES('Period 1', '3:00pm','6:00pm','English101','Mon/Fr')";
             insertDataSql = "INSERT INTO sections  (sectionName, className, startTime, endTime, Days) VALUES('Period 2', '3:00pm','6:00pm','Sociology322','Tu/Th')";
@@ -111,10 +121,34 @@ public class CollegeDB {
         }
     }
 
+    // Create Prerequisites table
+
+    private void createTable5() {
+
+        try (Connection con = DriverManager.getConnection(URL)) {
+            Statement statement = con.createStatement();
+
+
+            String createTableSql = "CREATE TABLE IF NOT EXISTS prerequisites(id INTEGER PRIMARY KEY, courseID TEXT, className TEXT,creditHours, Instructor TEXT,ClassTime TEXT, Days TEXT, bldgRoom TEXT )";
+            statement.execute(createTableSql);
+
+            // Populate prerequisites table with data
+
+           String insertDataSql = "INSERT INTO prerequisites (courseID) VALUES('ITEC1150','ITEC1100','ITEC1110','ITEC1250') ";
+           statement.execute(insertDataSql);
+
+
+
+        } catch (SQLException sqle) {
+            throw new RuntimeException(sqle);
+        }
+    }
+
+
     // Query for all data
 
-    ArrayList<CollegeDB> fetchAllRecords() {
-        ArrayList<CollegeDB> allRecords = new ArrayList<CollegeDB>();
+    ArrayList<CollegeProgram> fetchAllRecords() {
+        ArrayList<CollegeProgram> allRecords = new ArrayList<CollegeProgram>();
 
         try (Connection con = DriverManager.getConnection(URL)) {
 
@@ -123,7 +157,7 @@ public class CollegeDB {
             String selectAllSQL = "SELECT * FROM" + TABLE_NAME1 + TABLE_NAME2 + TABLE_NAME3 + TABLE_NAME4 + TABLE_NAME5;
             ResultSet rsAll = statement.executeQuery(selectAllSQL);
 
-                // Loop over the result set from column to column
+            // Loop over the result set from column to column
 
             while (rsAll.next()) {
                 String courseID = rsAll.getString(ID_COL);
@@ -134,9 +168,9 @@ public class CollegeDB {
                 String classTime = rsAll.getString(CTIME_COL);
                 String days = rsAll.getString(DAYS_COL);
                 String bldgRoom = rsAll.getString(DAYS_COL);
-                CollegeDB CollegeRecords = new CollegeDB();
+                CollegeProgram CollegeProgramRecords = new CollegeProgram(courseID,sections,className,creditHours,Instructor,classTime,days,bldgRoom);
 
-                allRecords.add(CollegeRecords);
+                allRecords.add(CollegeProgramRecords);
 
 
             }
@@ -153,31 +187,71 @@ public class CollegeDB {
 
         }
     }
-           // Insert new data
+
+
+           // Insert new data in the courrses table
 
     public String addRecord(CollegeDB collegeDB) {
 
-        String addCoursesSQL = "INSERT INTO " + TABLE_NAME1 + "VALUES ( ?, ?, ?,?, ? ,?, ? ,?)";
-        final int SQLITE_CONSTRAINT_PRIMARYKEY = 12;
+        String addStudentsSQL = "INSERT INTO " + TABLE_NAME1 + "VALUES ( ?, ?, ?,?, ? ,?, ? ,?)";
+        final int SQLITE_CONSTRAINT_PRIMARYKEY = 22;
 
         try(Connection conn = DriverManager.getConnection(URL)){
 
-            PreparedStatement addCoursesPs = conn.prepareStatement(addCoursesSQL);
+            PreparedStatement addStudentPs = conn.prepareStatement(addStudentsSQL);
 
-            addCoursesPs.setString(1, CollegeDB.getCourseID());
-            addCoursesPs.setString(2, CollegeDB.getSections());
-            addCoursesPs.setString(3, CollegeDB.getClassName());
-            addCoursesPs.setString(4, CollegeDB.getCreditHours());
-            addCoursesPs.setString(5, CollegeDB.getInstructor());
-            addCoursesPs.setString(6, CollegeDB.getClassTime());
-            addCoursesPs.setString(7, CollegeDB.getDays());
-            addCoursesPs.setString(8, CollegeDB.getbldgRoom());
+            addStudentPs.setString(1, CollegeDB.getStudentID());
+            addStudentPs.setString(2, CollegeDB.getSFName());
+            addStudentPs.setString(3, CollegeDB.getSLName());
+            addStudentPs.setString(4, CollegeDB.getSections());
+            addStudentPs.setString(5, CollegeDB.getClassName());
+            addStudentPs.setString(6, CollegeDB.getCreditHours());
+            addStudentPs.setString(7, CollegeDB.getInstructor());
+            addStudentPs.setString(8, CollegeDB.getClassTime());
+            addStudentPs.setString(9, CollegeDB.getDays());
+            addStudentPs.setString(10, CollegeDB.getbldgRoom());
 
-            addCoursesPs.execute();
+            addStudentPs.execute();
 
             return OK;
 
         } catch (SQLException sqle) {
+
+            if(sqle.getErrorCode()==SQLITE_CONSTRAINT_PRIMARYKEY){
+
+                return "Duplicate studentID";
+
+            }else{
+                throw new RuntimeException(sqle);
+            }
+        }
+    }
+
+        // Insert new data in the students table
+
+    public String addRecord(){
+
+        String addCollegeProgramSQL = "INSERT INTO" +TABLE_NAME3 + "VALUES (?, ?, ?, ?, ?, ?,?,?)";
+        final int SQLITE_CONSTRAINT_PRIMARYKEY = 12;
+
+        try(Connection conn = DriverManager.getConnection(URL)){
+
+            PreparedStatement addCollegeProgramPs =conn.prepareStatement(addCollegeProgramSQL);
+
+            addCollegeProgramPs.setString(1, CollegeProgram.getCourseID());
+            addCollegeProgramPs.setString(2, CollegeProgram.getSections());
+            addCollegeProgramPs.setString(3, CollegeProgram.getClassName());
+            addCollegeProgramPs.setString(4, CollegeProgram.getCreditHours());
+            addCollegeProgramPs.setString(5, CollegeProgram.getInstructor());
+            addCollegeProgramPs.setString(6, CollegeProgram.getClassTime());
+            addCollegeProgramPs.setString(7, CollegeProgram.getDays());
+            addCollegeProgramPs.setString(8, CollegeDB.getbldgRoom());
+
+            addCollegeProgramPs.execute();
+
+            return OK;
+
+        } catch(SQLException sqle) {
 
             if(sqle.getErrorCode()==SQLITE_CONSTRAINT_PRIMARYKEY){
 
@@ -187,6 +261,11 @@ public class CollegeDB {
                 throw new RuntimeException(sqle);
             }
         }
+    }
+
+
+    private static String getCourseID() {
+        return null;
     }
 
     private static String getbldgRoom() {
@@ -217,10 +296,15 @@ public class CollegeDB {
         return null;
     }
 
-    private static String getCourseID() {
+    private static String getStudentID() {
         return null;
     }
-
+    private static String getSFName() {
+        return null;
+    }
+    private static String getSLName() {
+        return null;
+    }
 
 
 }

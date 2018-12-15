@@ -4,16 +4,16 @@ public class CollegeProgram {
 
 
     private String courseID;
-    private String className;
-    private String Instructor;
-    private String classTime;
+    private static String className;
+    private static String Instructor;
+    private static String classTime;
     private String Days;
     private String bldgRoom;
 
 
 
-    CollegeProgram(String ci, String cn, String I,String ct,String D, String bldgR){
-        courseID = ci;
+    CollegeProgram(String courseID, String sections, String ci, String cn, String I, String ct, String D, String bldgR){
+        this.courseID = ci;
         className = cn;
         Instructor = I;
         classTime = ct;
@@ -21,6 +21,25 @@ public class CollegeProgram {
         bldgRoom = bldgR;
 
     }
+
+    public static String getCourseID() {
+        return null;
+
+    }
+
+    public static String getSections() {
+        return null;
+    }
+
+    public static String getCreditHours() {
+        return null;
+    }
+
+    public static String getDays() {
+
+        return null;
+    }
+
 
     public String courseID(){
         return courseID;
@@ -30,7 +49,7 @@ public class CollegeProgram {
 
     }
 
-    public String getClassName(){
+    public static String getClassName(){
         return className;
     }
     public void setClassName(String className){
@@ -41,14 +60,14 @@ public class CollegeProgram {
         this.Instructor = Instructor;
     }
 
-    public String getInstructor(){
+    public static String getInstructor(){
         return Instructor;
     }
 
     public void setClassTime(String classTime){
         this.classTime = classTime;
     }
-    public String getClassTime(){
+    public static String getClassTime(){
 
         return classTime;
     }
