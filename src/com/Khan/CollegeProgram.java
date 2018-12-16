@@ -9,12 +9,15 @@ public class CollegeProgram {
     private  String classTime;
     private String Days;
     private String bldgRoom;
-    private int sections;
+    private String sections;
     private int creditHours;
+    private String studentID;
+    private String SFName;
+    private String SLName;
 
 
 
-    CollegeProgram( int sec, String ci, int CrHr, String cn, String I, String ct, String D, String bldgR){
+    CollegeProgram( String ci,String sec,String cn,int CrHr,String I,String ct,String D,String SID,String SFNAME, String SLNAME,  String bldgR){
         courseID = ci;
         className = cn;
         Instructor = I;
@@ -23,15 +26,20 @@ public class CollegeProgram {
         bldgRoom = bldgR;
         sections= sec;
         creditHours = CrHr;
+        studentID = SID;
+        SFName = SFNAME;
+        SLName = SLNAME;
 
     }
+
+        // Getter and Setter methods, toString
 
     public  String getCourseID() {
         return courseID;
 
     }
 
-    public  int getSections() {
+    public String getSections() {
         return sections;
     }
 
@@ -84,6 +92,24 @@ public class CollegeProgram {
     public String getBldgRoom(){
         return bldgRoom;
     }
+
+    public String getStudentID() {
+
+        return studentID;
+    }
+
+    public String getSFName() {
+
+        return SFName;
+    }
+
+    public String getSLName() {
+        return SLName;
+    }
+
+    public String getbldgRoom() {
+        return bldgRoom;
+    }
     @Override
     public String toString(){
 
@@ -91,4 +117,7 @@ public class CollegeProgram {
 
 
     }
+
+
+
 }

@@ -10,5 +10,16 @@
         <property name="enable_load_extension" value="true" />
       </driver-properties>
     </data-source>
+    <data-source source="LOCAL" name="User Data Source -" uuid="fafc5a6d-dcf8-4c31-98ce-f315a110eb83">
+      <synchronize>true</synchronize>
+      <configured-by-url>true</configured-by-url>
+      <jdbc-driver>java.sql.Driver</jdbc-driver>
+    </data-source>
+    <data-source source="LOCAL" name="User Data Source [2] -" uuid="74c33daf-22d8-482a-847c-77a1d953ed03">
+      <driver-ref>5f33ca34-2010-4628-80da-6010972a7491</driver-ref>
+      <synchronize>true</synchronize>
+      <configured-by-url>true</configured-by-url>
+      <jdbc-driver>java.sql.Driver</jdbc-driver>
+    </data-source>
   </component>
 </project>

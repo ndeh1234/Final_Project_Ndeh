@@ -10,11 +10,12 @@ import static sun.plugin.javascript.navig.JSType.URL;
 public class CollegeDB {
 
 
-    private static final String OK = "OK";
-    String url = "jdbc:sqlite:college.sqlite";   // Connection String
+ private static final String DB_CONNECTION_URL ="jdbc:sqlite:C:/Users/nhann/IdeaProjects/Final_Project_Ndeh/src/com/Khan/CollegeDB.java";   // Connection String
 
     // Declare and innitialize table column  names
 
+    private static final String OK = "OK";
+    private static final String FirstName = "SFName";
     private static final String TABLE_NAME1 = "students";
     private static final String TABLE_NAME2 = "instructors";
     private static final String TABLE_NAME3 = "courses";
@@ -28,7 +29,11 @@ public class CollegeDB {
     static final String CTIME_COL = "classTime";
     static final String DAYS_COL = "days";
     static final String BLDGROOM_COL = "bldgRoom";
+    static final String SID_COL = "SID";
+    static final String SFName_COL = "SFName";
+    static final String SLName_COL ="SLName";
     private CollegeDB collegeProgram;
+
 
 
     CollegeDB() {
@@ -38,7 +43,7 @@ public class CollegeDB {
 
     private void createTable3() {
 
-        try (Connection con = DriverManager.getConnection(URL)) {
+        try (Connection con = DriverManager.getConnection(DB_CONNECTION_URL)) {
             Statement statement = con.createStatement();
 
             String createTableSql = "CREATE TABLE IF NOT EXISTS courses ( INTEGER PRIMARY KEY, courseID TEXT, sections TEXT, className TEXT,creditHours int, Instructor TEXT,ClassTime TEXT, Days TEXT, bldgRoom TEXT ) ";
@@ -57,7 +62,7 @@ public class CollegeDB {
 
 
     private void createTable1() {
-        try (Connection con = DriverManager.getConnection(URL)) {
+        try (Connection con = DriverManager.getConnection(DB_CONNECTION_URL)) {
             Statement statement = con.createStatement();
 
               // Create the students table
@@ -79,7 +84,7 @@ public class CollegeDB {
     }
 
     private void createTable2() {
-        try (Connection con = DriverManager.getConnection(URL)) {
+        try (Connection con = DriverManager.getConnection(DB_CONNECTION_URL)) {
             Statement statement = con.createStatement();
 
               //  Create the instructor table
@@ -103,7 +108,7 @@ public class CollegeDB {
 
     private void createTable4() {
 
-        try (Connection con = DriverManager.getConnection(URL)) {
+        try (Connection con = DriverManager.getConnection(DB_CONNECTION_URL)) {
 
             Statement statement = con.createStatement();
 
@@ -126,7 +131,7 @@ public class CollegeDB {
 
     private void createTable5() {
 
-        try (Connection con = DriverManager.getConnection(URL)) {
+        try (Connection con = DriverManager.getConnection(DB_CONNECTION_URL)) {
             Statement statement = con.createStatement();
 
 
@@ -151,7 +156,7 @@ public class CollegeDB {
     ArrayList<CollegeProgram> fetchAllRecords() {
         ArrayList<CollegeProgram> allRecords = new ArrayList<CollegeProgram>();
 
-        try (Connection con = DriverManager.getConnection(URL)) {
+        try (Connection con = DriverManager.getConnection(DB_CONNECTION_URL)) {
 
             Statement statement = con.createStatement();
 
@@ -164,12 +169,15 @@ public class CollegeDB {
                 String courseID = rsAll.getString(ID_COL);
                 String sections = rsAll.getString(SECTION_COL);
                 String className = rsAll.getString(CNAME_COL);
-                String creditHours = rsAll.getString(CrHr_COL);
+                int creditHours = rsAll.getInt(CrHr_COL);
                 String Instructor = rsAll.getString(INSTRUCTOR_COL);
                 String classTime = rsAll.getString(CTIME_COL);
                 String days = rsAll.getString(DAYS_COL);
                 String bldgRoom = rsAll.getString(DAYS_COL);
-                CollegeProgram CollegeProgramRecords = new CollegeProgram(courseID,sections,className,creditHours,Instructor,classTime,days,bldgRoom);
+                String studentID = rsAll.getString(SID_COL);
+                String Firstame = rsAll.getString(SFName_COL);
+                String LastName = rsAll.getString(SLName_COL);
+                CollegeProgram CollegeProgramRecords = new CollegeProgram(courseID,sections,className,creditHours,Instructor,classTime,days,studentID,FirstName,LastName,bldgRoom);
 
                 allRecords.add(CollegeProgramRecords);
 
@@ -197,7 +205,7 @@ public class CollegeDB {
         String addStudentsSQL = "INSERT INTO " + TABLE_NAME1 + "VALUES ( ?, ?, ?,?, ? ,?, ? ,?)";
         final int SQLITE_CONSTRAINT_PRIMARYKEY = 22;
 
-        try(Connection conn = DriverManager.getConnection(URL)){
+        try(Connection conn = DriverManager.getConnection(DB_CONNECTION_URL)){
 
             PreparedStatement addStudentPs = conn.prepareStatement(addStudentsSQL);
 
@@ -206,7 +214,7 @@ public class CollegeDB {
             addStudentPs.setString(3, collegeProgram.getSLName());
             addStudentPs.setString(4, collegeProgram.getSections());
             addStudentPs.setString(5, collegeProgram.getClassName());
-            addStudentPs.setString(6, collegeProgram.getCreditHours());
+            addStudentPs.setInt(6, collegeProgram.getCreditHours());
             addStudentPs.setString(7, collegeProgram.getInstructor());
             addStudentPs.setString(8, collegeProgram.getClassTime());
             addStudentPs.setString(9, collegeProgram.getDays());
@@ -235,7 +243,7 @@ public class CollegeDB {
         String addCollegeProgramSQL = "INSERT INTO" +TABLE_NAME3 + "VALUES (?, ?, ?, ?, ?, ?,?,?)";
         final int SQLITE_CONSTRAINT_PRIMARYKEY = 12;
 
-        try(Connection conn = DriverManager.getConnection(URL)){
+        try(Connection conn = DriverManager.getConnection(DB_CONNECTION_URL)){
 
             PreparedStatement addCollegeProgramPs =conn.prepareStatement(addCollegeProgramSQL);
 
@@ -246,7 +254,9 @@ public class CollegeDB {
             addCollegeProgramPs.setString(5, collegeProgram.getInstructor());
             addCollegeProgramPs.setString(6, collegeProgram.getClassTime());
             addCollegeProgramPs.setString(7, collegeProgram.getDays());
-            addCollegeProgramPs.setString(8, collegeProgram.getbldgRoom());
+            addCollegeProgramPs.setString(8,collegeProgram.getSFName());
+            addCollegeProgramPs.setString(9, collegeProgram.getSLName());
+            addCollegeProgramPs.setString(10, collegeProgram.getbldgRoom());
 
             addCollegeProgramPs.execute();
 
@@ -271,7 +281,7 @@ public class CollegeDB {
 
          String deleteSQL = "DELETE FROM" + TABLE_NAME3 + " WHERE" + CNAME_COL + "=?";
 
-         try(Connection conn = DriverManager.getConnection(URL)){
+         try(Connection conn = DriverManager.getConnection(DB_CONNECTION_URL)){
              PreparedStatement deletePreparedStatement = conn.prepareStatement(deleteSQL);
 
              deletePreparedStatement.setString(1,collegeProgram.getClassName());

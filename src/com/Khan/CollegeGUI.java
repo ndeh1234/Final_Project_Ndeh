@@ -5,9 +5,6 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Vector;
 
 public class CollegeGUI extends JFrame {
     private JPanel mainPanel;
@@ -32,7 +29,7 @@ public class CollegeGUI extends JFrame {
     DefaultListModel<CollegeProgram> allCollegeProgramListModel;  // Add List Model
     private Controller controller;
 
-    public CollegeGUI(Controller controller) {
+    public CollegeGUI(Controller db) {
 
         this.controller = controller; // Stores a reference to the controller object
         // need this to make requests to the database
@@ -77,17 +74,17 @@ public class CollegeGUI extends JFrame {
                     return;
                 }
 
-                double courseID;
-                try{courseID = Double.parseDouble(courseIDTextField.getText());
+                int courseID;
+                try{courseID = Integer.parseInt(courseIDTextField.getText());
                 }catch (NumberFormatException nfe){
                     errorDialog("Try again");
                     return;
                 }
 
-                CollegeProgram collegeProgramRecord = new CollegeProgram(collegeProgram,)
+
                 String name1 = firstNameTextField.getText();
                 String name2 = lastNameTextField.getText();
-                String courseID = courseIDTextField.getUIClassID();
+
 
 
                                              }
