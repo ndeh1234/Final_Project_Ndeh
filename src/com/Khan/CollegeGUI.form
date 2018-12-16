@@ -18,14 +18,14 @@
           <text value="Student / InstructorID"/>
         </properties>
       </component>
-      <component id="57752" class="javax.swing.JTextField" binding="ClassNameTextField">
+      <component id="57752" class="javax.swing.JTextField" binding="collegeProgramNameText">
         <constraints>
           <grid row="0" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="174" height="30"/>
           </grid>
         </constraints>
         <properties>
-          <text value="Class Name"/>
+          <text value="College Program Name"/>
         </properties>
       </component>
       <component id="c70f6" class="javax.swing.JLabel" binding="CourseID">
@@ -36,7 +36,7 @@
           <text value=""/>
         </properties>
       </component>
-      <component id="4d61a" class="javax.swing.JTextField" binding="instructorTextField" default-binding="true">
+      <component id="4d61a" class="javax.swing.JTextField" binding="instructorText">
         <constraints>
           <grid row="3" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -145,7 +145,7 @@
           <text value="Last Name"/>
         </properties>
       </component>
-      <component id="28375" class="javax.swing.JList" binding="ScheduleJList">
+      <component id="28375" class="javax.swing.JList" binding="collegeProgramList">
         <constraints>
           <grid row="9" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="50"/>

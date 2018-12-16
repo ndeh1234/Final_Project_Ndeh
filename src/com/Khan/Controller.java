@@ -28,7 +28,12 @@ public class Controller {
 
       }
 
-      String addCollegeDBToDatabase(CollegeProgram collegeProgram){
-        return db.addRecord();
+      String addCollegeProgramToDB(CollegeProgram collegeProgram){
+        return db.addRecord(collegeProgram);
+      }
+
+      void deleteCollegeProgram(CollegeProgram collegeProgram){
+
+           db.delete(collegeProgram );
       }
 }

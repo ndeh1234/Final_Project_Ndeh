@@ -4,52 +4,53 @@ public class CollegeProgram {
 
 
     private String courseID;
-    private static String className;
-    private static String Instructor;
-    private static String classTime;
+    private  String className;
+    private  String Instructor;
+    private  String classTime;
     private String Days;
     private String bldgRoom;
+    private int sections;
+    private int creditHours;
 
 
 
-    CollegeProgram(String courseID, String sections, String ci, String cn, String I, String ct, String D, String bldgR){
-        this.courseID = ci;
+    CollegeProgram( int sec, String ci, int CrHr, String cn, String I, String ct, String D, String bldgR){
+        courseID = ci;
         className = cn;
         Instructor = I;
         classTime = ct;
         Days = D;
         bldgRoom = bldgR;
+        sections= sec;
+        creditHours = CrHr;
 
     }
 
-    public static String getCourseID() {
-        return null;
-
-    }
-
-    public static String getSections() {
-        return null;
-    }
-
-    public static String getCreditHours() {
-        return null;
-    }
-
-    public static String getDays() {
-
-        return null;
-    }
-
-
-    public String courseID(){
+    public  String getCourseID() {
         return courseID;
+
     }
+
+    public  int getSections() {
+        return sections;
+    }
+
+    public int getCreditHours() {
+        return creditHours;
+    }
+
+    public  String getDays() {
+
+        return Days;
+    }
+
+
     public void setCourseID(String courseID){
         this.courseID = courseID;
 
     }
 
-    public static String getClassName(){
+    public String getClassName(){
         return className;
     }
     public void setClassName(String className){
@@ -60,14 +61,14 @@ public class CollegeProgram {
         this.Instructor = Instructor;
     }
 
-    public static String getInstructor(){
+    public  String getInstructor(){
         return Instructor;
     }
 
     public void setClassTime(String classTime){
         this.classTime = classTime;
     }
-    public static String getClassTime(){
+    public  String getClassTime(){
 
         return classTime;
     }

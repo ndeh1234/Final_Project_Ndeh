@@ -28,6 +28,7 @@ public class CollegeDB {
     static final String CTIME_COL = "classTime";
     static final String DAYS_COL = "days";
     static final String BLDGROOM_COL = "bldgRoom";
+    private CollegeDB collegeProgram;
 
 
     CollegeDB() {
@@ -191,7 +192,7 @@ public class CollegeDB {
 
            // Insert new data in the courrses table
 
-    public String addRecord(CollegeDB collegeDB) {
+    public String addRecord(CollegeProgram collegeProgram) {
 
         String addStudentsSQL = "INSERT INTO " + TABLE_NAME1 + "VALUES ( ?, ?, ?,?, ? ,?, ? ,?)";
         final int SQLITE_CONSTRAINT_PRIMARYKEY = 22;
@@ -200,16 +201,16 @@ public class CollegeDB {
 
             PreparedStatement addStudentPs = conn.prepareStatement(addStudentsSQL);
 
-            addStudentPs.setString(1, CollegeDB.getStudentID());
-            addStudentPs.setString(2, CollegeDB.getSFName());
-            addStudentPs.setString(3, CollegeDB.getSLName());
-            addStudentPs.setString(4, CollegeDB.getSections());
-            addStudentPs.setString(5, CollegeDB.getClassName());
-            addStudentPs.setString(6, CollegeDB.getCreditHours());
-            addStudentPs.setString(7, CollegeDB.getInstructor());
-            addStudentPs.setString(8, CollegeDB.getClassTime());
-            addStudentPs.setString(9, CollegeDB.getDays());
-            addStudentPs.setString(10, CollegeDB.getbldgRoom());
+            addStudentPs.setString(1, collegeProgram.getStudentID());
+            addStudentPs.setString(2, collegeProgram.getSFName());
+            addStudentPs.setString(3, collegeProgram.getSLName());
+            addStudentPs.setString(4, collegeProgram.getSections());
+            addStudentPs.setString(5, collegeProgram.getClassName());
+            addStudentPs.setString(6, collegeProgram.getCreditHours());
+            addStudentPs.setString(7, collegeProgram.getInstructor());
+            addStudentPs.setString(8, collegeProgram.getClassTime());
+            addStudentPs.setString(9, collegeProgram.getDays());
+            addStudentPs.setString(10, collegeProgram.getbldgRoom());
 
             addStudentPs.execute();
 
@@ -238,14 +239,14 @@ public class CollegeDB {
 
             PreparedStatement addCollegeProgramPs =conn.prepareStatement(addCollegeProgramSQL);
 
-            addCollegeProgramPs.setString(1, CollegeProgram.getCourseID());
-            addCollegeProgramPs.setString(2, CollegeProgram.getSections());
-            addCollegeProgramPs.setString(3, CollegeProgram.getClassName());
-            addCollegeProgramPs.setString(4, CollegeProgram.getCreditHours());
-            addCollegeProgramPs.setString(5, CollegeProgram.getInstructor());
-            addCollegeProgramPs.setString(6, CollegeProgram.getClassTime());
-            addCollegeProgramPs.setString(7, CollegeProgram.getDays());
-            addCollegeProgramPs.setString(8, CollegeDB.getbldgRoom());
+            addCollegeProgramPs.setString(1, collegeProgram.getCourseID());
+            addCollegeProgramPs.setString(2, collegeProgram.getSections());
+            addCollegeProgramPs.setString(3, collegeProgram.getClassName());
+            addCollegeProgramPs.setString(4, collegeProgram.getCreditHours());
+            addCollegeProgramPs.setString(5, collegeProgram.getInstructor());
+            addCollegeProgramPs.setString(6, collegeProgram.getClassTime());
+            addCollegeProgramPs.setString(7, collegeProgram.getDays());
+            addCollegeProgramPs.setString(8, collegeProgram.getbldgRoom());
 
             addCollegeProgramPs.execute();
 
@@ -255,7 +256,7 @@ public class CollegeDB {
 
             if(sqle.getErrorCode()==SQLITE_CONSTRAINT_PRIMARYKEY){
 
-                return "Duplicate CourseID";
+                return "Duplicate CollegeProgram name";  // Check for duplicate college program names by checking error code
 
             }else{
                 throw new RuntimeException(sqle);
@@ -263,6 +264,26 @@ public class CollegeDB {
         }
     }
 
+         // SQL delete statement
+
+        void delete(CollegeProgram collegeProgram){
+                                                       // Delete class from courses table, under class name column
+
+         String deleteSQL = "DELETE FROM" + TABLE_NAME3 + " WHERE" + CNAME_COL + "=?";
+
+         try(Connection conn = DriverManager.getConnection(URL)){
+             PreparedStatement deletePreparedStatement = conn.prepareStatement(deleteSQL);
+
+             deletePreparedStatement.setString(1,collegeProgram.getClassName());
+             deletePreparedStatement.execute();
+
+
+
+         } catch (SQLException sqle) {
+             throw new RuntimeException(sqle);
+         }
+
+        }
 
     private static String getCourseID() {
         return null;
