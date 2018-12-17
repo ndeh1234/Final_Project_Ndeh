@@ -5,6 +5,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class CollegeGUI extends JFrame {
     private JPanel mainPanel;
@@ -29,9 +30,10 @@ public class CollegeGUI extends JFrame {
     DefaultListModel<CollegeProgram> allCollegeProgramListModel;  // Add List Model
     private Controller controller;
 
-    public CollegeGUI(Controller db) {
+    public CollegeGUI(Controller controller) {
+        this.controller=controller;
 
-        this.controller = controller; // Stores a reference to the controller object
+      //  this.controller = controller; // Stores a reference to the controller object
         // need this to make requests to the database
 
         // Configure the list model
@@ -56,10 +58,16 @@ public class CollegeGUI extends JFrame {
 
         DefaultTableModel tableModel = new DefaultTableModel();
         tableModel.addColumn("courseID");
+        tableModel.addColumn("sections");
         tableModel.addColumn("Class Name");
+        tableModel.addColumn("creditHours");
         tableModel.addColumn("Instructor");
+         tableModel.addColumn("classTime");
         tableModel.addColumn("Days");
-        tableModel.addColumn("Time");
+         tableModel.addColumn("bldgRoom");
+
+         // Add the initial data to the JTable DefaultTableModel
+
 
         addClassButton.addActionListener(new ActionListener() {
             @Override
@@ -82,7 +90,7 @@ public class CollegeGUI extends JFrame {
                 }
 
             }
-                                         }
+        }
         );
     }
 
@@ -98,6 +106,27 @@ public class CollegeGUI extends JFrame {
                  allCollegeProgramListModel.addElement(collegeProgram);
              }
          }
+
+         dropClassButton.addActionListener(new ActionListener() {
+             @Override
+             public void actionPerformed(ActionEvent e) {
+
+
+
+                 CollegeProgram collegeProgram = (CollegeProgram) collegeProgramList.getSelectedValue();
+
+                 if(collegeProgram!=null){
+                     JOptionPane.showMessageDialog(CollegeGUI.this,"Please Select a College Program to drop");
+
+
+                 }else{
+                     controller.deleteCollegeProgram(collegeProgram);
+
+                     ArrayList<CollegeProgram>collegePrograms=controller.getAllData();
+                     setListData(collegePrograms);
+                 }
+             }
+         });
     }
 }
 

@@ -36,21 +36,19 @@ public class CollegeDB {
 
         String url = "jdbc:sqlite:college.sqlite";
 
-        try (Connection con = DriverManager.getConnection(url)) {
-            if (con != null) {
-                DatabaseMetaData metaData = con.getMetaData();
-                System.out.println("The driver name is " + metaData.getDriverName());
+            try (Connection con = DriverManager.getConnection(url)) {
+                if (con != null) {
+                    DatabaseMetaData metaData = con.getMetaData();
+                    System.out.println("The driver name is " + metaData.getDriverName());
+                }
+            } catch (SQLException e) {
+                e.getMessage();
             }
-        } catch (SQLException e) {
-            e.getMessage();
+
         }
 
 
-       // CollegeDB() {
 
-
-           // createTable1();
-        }
         private void createTable3 () {
 
             try (Connection con = DriverManager.getConnection(URL)) {
