@@ -81,13 +81,7 @@ public class CollegeGUI extends JFrame {
                     return;
                 }
 
-
-                String name1 = firstNameTextField.getText();
-                String name2 = lastNameTextField.getText();
-
-
-
-                                             }
+            }
                                          }
         );
     }

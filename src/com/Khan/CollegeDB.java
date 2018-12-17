@@ -56,7 +56,7 @@ public class CollegeDB {
             try (Connection con = DriverManager.getConnection(URL)) {
                 Statement statement = con.createStatement();
 
-                String createTableSql = "CREATE TABLE IF NOT EXISTS courses ( INTEGER PRIMARY KEY, courseID TEXT, sections TEXT, className TEXT,creditHours int, Instructor TEXT,ClassTime TEXT, Days TEXT, bldgRoom TEXT ) ";
+                String createTableSql = "CREATE TABLE IF NOT EXISTS courses (id INTEGER PRIMARY KEY, courseID TEXT, sections TEXT, className TEXT,creditHours int, Instructor TEXT,ClassTime TEXT, Days TEXT, bldgRoom TEXT ) ";
                 statement.execute(createTableSql);
 
                 String insertDataSql = "INSERT INTO courses(courseID, sectionName , className, creditHours,Instructor,ClassTime,Days,bldgRoom) VALUES('ITEC2545',01,'Java Programing',6,'Brian','9:45am-12:30pm','Tu/Wed','T3030')";
@@ -160,37 +160,34 @@ public class CollegeDB {
         }
 
 
-        // Query for all data
+        // Query for all data from 4 tables using inner join
 
         ArrayList<CollegeProgram> fetchAllRecords () {
             ArrayList<CollegeProgram> allRecords = new ArrayList<CollegeProgram>();
 
-            try (Connection con = DriverManager.getConnection(URL)) {
+            try (Connection con = DriverManager.getConnection(URL)) {   //
 
                 Statement statement = con.createStatement();
+                String selectAll = "SELECT sections, className, creditHours, Instructor, classTime, Days, bldgRoom FROM courses inner join students ON courses.coursesID" +
+                        "=students.coursesID inner join Instructors ON students.studentsID = Instructors.studentsID inner join sections ON Instructors.InstructorsID =" +
+                        "sections.InstructorsID";
+                ResultSet rsAll = statement.executeQuery(selectAll);
+                System.out.println("Sections ClassName CreditHours Instructor ClassTime Days BldgRoom");
 
-                String selectAllSQL = "SELECT * FROM" + TABLE_NAME1 + TABLE_NAME2 + TABLE_NAME3 + TABLE_NAME4 + TABLE_NAME5;
-                ResultSet rsAll = statement.executeQuery(selectAllSQL);
-
-                // Loop over the result set from column to column
 
                 while (rsAll.next()) {
-                    String courseID = rsAll.getString(ID_COL);
-                    String sections = rsAll.getString(SECTION_COL);
-                    String className = rsAll.getString(CNAME_COL);
-                    int creditHours = rsAll.getInt(CrHr_COL);
-                    String Instructor = rsAll.getString(INSTRUCTOR_COL);
-                    String classTime = rsAll.getString(CTIME_COL);
-                    String days = rsAll.getString(DAYS_COL);
-                    String bldgRoom = rsAll.getString(DAYS_COL);
-                    String studentID = rsAll.getString(SID_COL);
-                    String Firstame = rsAll.getString(SFName_COL);
-                    String LastName = rsAll.getString(SLName_COL);
-                    CollegeProgram CollegeProgramRecords = new CollegeProgram(courseID, sections, className, creditHours, Instructor, classTime, days, studentID, FirstName, LastName, bldgRoom);
 
-                    allRecords.add(CollegeProgramRecords);
+                    String sections = rsAll.getString("sections");
+                    String className = rsAll.getString("className");
+                    int creditHours = rsAll.getInt("creditHours");
+                    String Instructor = rsAll.getString("Instructor");
+                    String classTime = rsAll.getString("classTime");
+                    String Days = rsAll.getString("Days");
+                    String bldgRoom = rsAll.getString("bldgRoom");
+                    System.out.println(sections + " " + className + " " + creditHours + " " + Instructor + " " + classTime + " " + Days + " " + bldgRoom);
 
-
+                System.out.println();
+                System.out.println();
                 }
 
                 rsAll.close();
