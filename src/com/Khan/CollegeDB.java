@@ -325,6 +325,7 @@ public class CollegeDB {
             }
 
         }
+             // Need these methods, but they don't need any code
 
         private static String getCourseID () {
             return null;
