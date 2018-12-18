@@ -5,26 +5,22 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class CollegeGUI extends JFrame {
     private JPanel mainPanel;
-    private JButton RegistrationButton;
     private JTextField collegeProgramNameText;
-    private JButton dropClassButton;
-    private JButton addClassButton;
-    private JTextField studentInstructorIDTextField;
-    private JLabel CourseID;
+    private JButton dropButton;
+    private JButton RegisterButton;
     private JLabel courseID;
     private JTextField courseIDTextField;
-    private JTextField instructorText;
-    private JTextField studentTextField;
-    private JTextField firstNameTextField;
-    private JTextField middleNameTextField;
-    private JTextField lastNameTextField;
-    private JScrollPane scrollPane1;
-    private JSlider ClassSize;
     private JList collegeProgramList;
+    private JTextField FirstNameTextField;
+    private JTextField LastNameTextField;
+    private JTextField CourseTextField;
+    private JTextField IDTextField;
+    private JButton DropButton;
+    private JTable ScheduleTable;
+    private JButton registerButton;
 
     private CollegeDB db;
     DefaultListModel<CollegeProgram> allCollegeProgramListModel;  // Add List Model
@@ -37,8 +33,8 @@ public class CollegeGUI extends JFrame {
         // need this to make requests to the database
 
         // Configure the list model
-        allCollegeProgramListModel = new DefaultListModel<CollegeProgram>();
-        collegeProgramList.setModel(allCollegeProgramListModel);
+       // allCollegeProgramListModel = new DefaultListModel<CollegeProgram>();
+       // collegeProgramList.setModel(allCollegeProgramListModel);
 
         // and listeners
         addListeners();
@@ -69,7 +65,7 @@ public class CollegeGUI extends JFrame {
          // Add the initial data to the JTable DefaultTableModel
 
 
-        addClassButton.addActionListener(new ActionListener() {
+        RegisterButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
@@ -107,7 +103,7 @@ public class CollegeGUI extends JFrame {
              }
          }
 
-         dropClassButton.addActionListener(new ActionListener() {
+         dropButton.addActionListener(new ActionListener() {
              @Override
              public void actionPerformed(ActionEvent e) {
 

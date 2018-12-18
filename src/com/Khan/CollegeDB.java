@@ -10,7 +10,7 @@ import static sun.plugin.javascript.navig.JSType.URL;
 public class CollegeDB {
 
 
-    // Declare and innitialize table column  names
+    // Declare and innitialize table and  column  names
 
     private static final String OK = "OK";
     private static final String FirstName = "SFName";
@@ -32,23 +32,21 @@ public class CollegeDB {
     static final String SLName_COL = "SLName";
     private CollegeDB collegeProgram;
 
-    public static void main(String[] args) {
 
-        String url = "jdbc:sqlite:college.sqlite";
+   public static void main(String[] args) {
 
-            try (Connection con = DriverManager.getConnection(url)) {
-                if (con != null) {
-                    DatabaseMetaData metaData = con.getMetaData();
-                    System.out.println("The driver name is " + metaData.getDriverName());
-                }
-            } catch (SQLException e) {
-                e.getMessage();
-            }
+    String url = "jdbc:sqlite:db/Colleges.sqlite";
 
-        }
+       try (Connection con = DriverManager.getConnection(url)) {
+           if (con != null) {
+               DatabaseMetaData metaData = con.getMetaData();
+               System.out.println("The driver name is " + metaData.getDriverName());
+           }
+       } catch (SQLException e) {
+           e.getMessage();
+       }
 
-
-
+   }
         private void createTable3 () {
 
             try (Connection con = DriverManager.getConnection(URL)) {
@@ -62,13 +60,17 @@ public class CollegeDB {
 
             } catch (SQLException sqle) {
 
+                if (sqle.getMessage().contains("Course exists already")) {
 
-                throw new RuntimeException(sqle);
+                } else if (sqle.getMessage().contains("Prequisite not completed ")) {
+
+                } else {
+                    throw new RuntimeException(sqle);
+                }
+
             }
 
         }
-
-
         private void createTable1 () {
             try (Connection con = DriverManager.getConnection(URL)) {
                 Statement statement = con.createStatement();
@@ -87,7 +89,14 @@ public class CollegeDB {
 
 
             } catch (SQLException sqle) {
-                throw new RuntimeException(sqle);
+
+                if (sqle.getMessage().contains("Student exists already")) {
+
+                } else if(sqle.getMessage().contains("Does not meet the requirement")){
+
+                } else {
+                    throw new RuntimeException(sqle);
+                }
             }
         }
 
@@ -108,10 +117,18 @@ public class CollegeDB {
                 statement.execute(insertDataSql);
 
             } catch (SQLException sqle) {
-                throw new RuntimeException(sqle);
-            }
 
+                if (sqle.getMessage().contains("Instructor exists already")) {
+
+                } else {
+
+
+                    throw new RuntimeException(sqle);
+                }
+
+            }
         }
+
         // Create the section table
 
         private void createTable4 () {
@@ -131,13 +148,18 @@ public class CollegeDB {
                 statement.execute(insertDataSql);
 
             } catch (SQLException sqle) {
-                throw new RuntimeException(sqle);
+
+                if (sqle.getMessage().contains("Section exists already")) {
+
+                } else {
+                    throw new RuntimeException(sqle);
+                }
             }
         }
-
         // Create Prerequisites table
 
         private void createTable5 () {
+
 
             try (Connection con = DriverManager.getConnection(URL)) {
                 Statement statement = con.createStatement();
@@ -153,10 +175,16 @@ public class CollegeDB {
 
 
             } catch (SQLException sqle) {
-                throw new RuntimeException(sqle);
+
+                if (sqle.getMessage().contains("Prerequisite exists already")) {
+
+                } else {
+
+
+                    throw new RuntimeException(sqle);
+                }
             }
         }
-
 
         // Query for all data from 4 tables using inner join
 
