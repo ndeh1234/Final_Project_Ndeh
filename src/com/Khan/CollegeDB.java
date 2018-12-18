@@ -194,7 +194,7 @@ public class CollegeDB {
             try (Connection con = DriverManager.getConnection(URL)) {   //
 
                 Statement statement = con.createStatement();
-                String selectAll = "SELECT sections, className, creditHours, Instructor, classTime, Days, bldgRoom FROM courses inner join students ON courses.coursesID" +
+                String selectAll = "SELECT sections, className, creditHours, Instructor, classTime, Days, bldgRoom FROM courses ORDER BY courseID inner join students ON courses.coursesID" +
                         "=students.coursesID inner join Instructors ON students.studentsID = Instructors.studentsID inner join sections ON Instructors.InstructorsID =" +
                         "sections.InstructorsID";
                 ResultSet rsAll = statement.executeQuery(selectAll);
