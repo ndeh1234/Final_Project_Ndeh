@@ -18,16 +18,16 @@ public class Controller {
 
         db = new CollegeDB();
 
-        ArrayList<CollegeProgram> allData = db.fetchAllRecords();
+        //ArrayList<CollegeProgram> allData = db.fetchAllRecords();
 
         gui = new CollegeGUI(this);
 
     }
 
-      ArrayList<CollegeProgram> getAllData(){
-        return db.fetchAllRecords();
+     // ArrayList<CollegeProgram> getAllData(){
+      //  return db.fetchAllRecords();
 
-      }
+      //}
 
       }
 

@@ -40,7 +40,7 @@ public class CollegeGUI extends JFrame {
     JPanel panel;
 
     DefaultTableModel model;
-    JScrollPane scrollpane;
+
 
     private CollegeDB db;
 
@@ -56,7 +56,7 @@ public class CollegeGUI extends JFrame {
 
         // Calling connect method, this will connect us to the database
 
-        Connect();
+       // Connect();
 
         // Defining Labels
 
@@ -81,6 +81,7 @@ public class CollegeGUI extends JFrame {
                 super.keyTyped(e);
             }
         });
+
         SectionTextField = new JTextField();
 
         ClassNameTextField = new JTextField();
@@ -190,6 +191,7 @@ public class CollegeGUI extends JFrame {
 
     public void Connect() {
 
+          addListeners();
 
 
     }
