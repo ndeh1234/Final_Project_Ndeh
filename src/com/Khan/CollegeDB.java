@@ -35,7 +35,7 @@ public class CollegeDB {
 
    public static void main(String[] args) {
 
-    String url = "jdbc:sqlite:db/Colleges.sqlite";
+    String url = "jdbc:sqlite:Colleges.sqlite";
 
        try (Connection con = DriverManager.getConnection(url)) {
            if (con != null) {
@@ -47,13 +47,15 @@ public class CollegeDB {
        }
 
    }
-        private void createTable3 () {
+        private void createTable3 () {  // Create courses table
 
             try (Connection con = DriverManager.getConnection(URL)) {
                 Statement statement = con.createStatement();
 
                 String createTableSql = "CREATE TABLE IF NOT EXISTS courses (id INTEGER PRIMARY KEY, courseID TEXT, sections TEXT, className TEXT,creditHours int, Instructor TEXT,ClassTime TEXT, Days TEXT, bldgRoom TEXT ) ";
                 statement.execute(createTableSql);
+
+                                       // Populate courses table
 
                 String insertDataSql = "INSERT INTO courses(courseID, sectionName , className, creditHours,Instructor,ClassTime,Days,bldgRoom) VALUES('ITEC2545',01,'Java Programing',6,'Brian','9:45am-12:30pm','Tu/Wed','T3030')";
                 statement.execute(insertDataSql);
@@ -75,12 +77,12 @@ public class CollegeDB {
             try (Connection con = DriverManager.getConnection(URL)) {
                 Statement statement = con.createStatement();
 
-                // Create the students table
+                // Create students table
 
                 String createTableSql = "CREATE TABLE IF NOT EXISTS students (id INTEGER PRIMARY KEY, studentID TEXT, sFName TEXT,sLName,className TEXT, Instructor TEXT,ClassTime TEXT, Days TEXT, bldgRoom TEXT )";
                 statement.execute(createTableSql);
 
-                // Populate the students table
+                // Populate students table
 
                 String insertDataSql = "INSERT INTO students(studentID,studentName, className,Instructor,ClassTime,Days,bldgRoom) VALUES('ITEC2545','Java Programing','Paul', 'Mark','Brian','9:45am-12:30pm','Tu/Wed','T3030')";
                 statement.execute(insertDataSql);
@@ -100,16 +102,18 @@ public class CollegeDB {
             }
         }
 
+
+
         private void createTable2 () {
             try (Connection con = DriverManager.getConnection(URL)) {
                 Statement statement = con.createStatement();
 
-                //  Create the instructor table
+                //  Create  instructors table
 
                 String createTableSql = " CREATE TABLE IF NOT EXISTS instructors (id INTEGER PRIMARY KEY, instructorID int, iFName TEXT, iLName TEXT, className TEXT,ClassTime TEXT, Days TEXT, bldgRoom TEXT )";
                 statement.execute(createTableSql);
 
-                // Populate the instructor table
+                // Populate  instructor table
 
                 String insertDataSql = "INSERT INTO instructors (instructorID,iFName,iLName, className,ClassTime,Days,bldgRoom) VALUES(001,'Paul', 'Mark','Cisco NetWorking','9:45am-12:30pm','Tu/Wed','T3030')";
                 statement.execute(insertDataSql);
@@ -129,7 +133,7 @@ public class CollegeDB {
             }
         }
 
-        // Create the section table
+        // Create  sections table
 
         private void createTable4 () {
 
@@ -141,7 +145,7 @@ public class CollegeDB {
                 String createTableSql = " CREATE TABLE IF NOT EXISTS sections (id INTEGER PRIMARY KEY, sectionName, startTime TEXT, endTime TEXT, className TEXT, Days TEX )";
                 statement.execute(createTableSql);
 
-                // Populate the section table with data
+                // Populate section table with data
 
                 String insertDataSql = "INSERT INTO sections ( sectionName, className, startTime, endTime, Days) VALUES('Period 1', '3:00pm','6:00pm','English101','Mon/Fr')";
                 insertDataSql = "INSERT INTO sections  (sectionName, className, startTime, endTime, Days) VALUES('Period 2', '3:00pm','6:00pm','Sociology322','Tu/Th')";
@@ -186,7 +190,7 @@ public class CollegeDB {
             }
         }
 
-        // Query for all data from 4 tables using inner join
+        // Query for data from 4 tables using inner join
 
         ArrayList<CollegeProgram> fetchAllRecords () {
             ArrayList<CollegeProgram> allRecords = new ArrayList<CollegeProgram>();

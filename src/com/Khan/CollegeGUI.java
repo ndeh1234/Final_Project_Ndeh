@@ -1,37 +1,50 @@
 package com.Khan;
 
-import com.sun.xml.internal.bind.v2.model.core.ID;
-import netscape.security.UserTarget;
-import sun.usagetracker.UsageTrackerClient;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.nio.file.attribute.UserPrincipal;
+import java.sql.*;
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 
-public class CollegeGUI extends JFrame implements ActionListener {
+import static java.lang.Class.forName;
+import static sun.plugin.javascript.navig.JSType.URL;
+
+public class CollegeGUI extends JFrame  {
+
+    Connection con;
+    Statement stm;
+    PreparedStatement preStatement,updatePreStmt;
+
     private JPanel mainPanel;
     private JTextField collegeProgramNameText;
-    private JButton dropButton;
-    private JButton RegisterButton;
+    private JButton DropButton;
     private JTextField courseIDTextField;
     private JList collegeProgramList;
     private JTextField FirstNameTextField;
     private JTextField LastNameTextField;
     private JTextField CourseTextField;
     private JTextField IDTextField;
-    private JTable ScheduleTable;
-    private JButton exitButton;
-    private JButton registerButton;
-    JTable table;
+    private JTextField SectionTextField;
+    private JTextField ClassNameTextField;
+    private JTextField InstructorTextField;
+    private JTextField ClassTimeTextField;
+    private JTextField DaysTextField;
+    private JTextField BldgRoomTextField;
+    private JButton ExitButton;
+    private JButton RegisterButton;
+    private JTable Table;
+    private JLabel Title;
+    private JTextField CreditHoursTextField;
+    private JButton UpdateButton;
 
+  JPanel panel;
+   JTable tabel;
+   DefaultTableModel model;
+    JScrollPane scrollpane;
 
     private CollegeDB db;
     DefaultListModel<CollegeProgram> allCollegeProgramListModel;  // Add List Model
@@ -40,74 +53,157 @@ public class CollegeGUI extends JFrame implements ActionListener {
     // Defining Constructor
 
     public CollegeGUI(Controller controller) {
-        this.controller = controller;
-        setSize(700, 360);
-        setLayout(null);
+
+        super("Online Registration Application");
+
+        // Calling connect method, this will connect us to the database
+
+        Connect();
+
+       this.controller = controller;
+
 
 
         // Defining Labels
 
-        JLabel title = new JLabel("Online Registration Application");
+         Title = new JLabel("Online Registration Application");
+         JLabel ID = new JLabel("ID");
+        JLabel Section = new JLabel("Section");
+        JLabel ClassName = new JLabel("Class Name");
+        JLabel CreditHours = new JLabel("CrHrs");
+        JLabel Instructor = new JLabel("Instructor");
+        JLabel ClassTime = new JLabel("Class Time");
+        JLabel Days = new JLabel("Days");
+        JLabel bldgRoom = new JLabel ("Bldg/Room");
 
-        title.setBounds(60, 7, 200, 30);
 
-        JLabel IdLabel = new JLabel("ID");
-        JLabel FirstNameLabel = new JLabel("First Name");
-        FirstNameLabel.setBounds(30, 85, 60, 30);
-        JLabel LastNameLabel = new JLabel("Last Name");
-        LastNameLabel.setBounds(30, 85, 60, 30);
-        JLabel studentLabel = new JLabel("Student");
-        JLabel InstructorLabel = new JLabel("Instructor");
-        JLabel ScheduleLabel = new JLabel("Schedule");
 
-        // Defining ID Field
+        // Defining  Fields
 
         IDTextField = new JTextField();
-        IDTextField.setBounds(95, 50, 100, 30);
+
         IDTextField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
                 super.keyTyped(e);
             }
         });
+        SectionTextField = new JTextField();
 
-        // Defining name Field
+        ClassNameTextField = new JTextField();
 
-        FirstNameTextField = new JTextField();
-        FirstNameTextField.setBounds(95, 120, 60, 30);
-        LastNameTextField = new JTextField();
-        LastNameTextField.setBounds(95, 120, 60, 30);
+        CreditHoursTextField = new JTextField();
 
-        // Defining course Field
+        ClassTimeTextField = new JTextField();
 
-        CourseTextField = new JTextField();
-        CourseTextField.setBounds(95, 120, 60, 30);
+        DaysTextField = new JTextField();
 
-        // Defining Exit Button
+        BldgRoomTextField = new JTextField();
 
-        exitButton = new JButton();
-        exitButton.setBounds(25, 230, 80, 30);
+
+
+        // Fixing all Labels and TextFields
+
+        add(Title);
+        add(ID);
+        add(Section);
+        add(ClassName);
+        add(CreditHours);
+        add(Instructor);
+        add(ClassTime);
+        add(Days);
+        add(bldgRoom);
+
+
 
         // Defining Register Button
 
-        registerButton = new JButton();
-        registerButton.setBounds(110, 230, 100, 30);
-        registerButton.addActionListener(this);
+        RegisterButton = new JButton("Register");
+
+
+        //RegisterButton.addActionListener();
 
         // Defining Drop Button
 
-        dropButton = new JButton();
-        dropButton.setBounds(110, 230, 100, 30);
+        DropButton = new JButton("Drop");
+
+        DropButton.setEnabled(false);
+
+
+        // Defining Exit Button
+
+        ExitButton = new JButton("Exit");
+
+        // Defining update button
+
+        UpdateButton = new JButton("Update");
+
+        UpdateButton.setEnabled(false);
+
+
+        // Fixing all Buttons
+
+         add(RegisterButton);
+         add(DropButton);
+         add(ExitButton);
+         add(UpdateButton);
 
         // Defining Panel
 
-        mainPanel = new JPanel();
-        mainPanel.setBounds(250, 10, 400, 300);
-        mainPanel.setBorder(BorderFactory.createDashedBorder(Color.GREEN));
-        add(mainPanel);
+        panel= new JPanel();
+        panel.setLayout(new GridLayout());
+        panel.setBorder(BorderFactory.createDashedBorder(Color.GREEN));
+        add(panel);
+
+        // Defining Model for Table
+
+        model = new DefaultTableModel();
+
+        // Adding Object of DefaultTabletModel into JTable
+
+         Table = new JTable((TableModel) model);
 
 
-        addListeners();
+        //Fixing Columns move
+
+        Table.getTableHeader().setReorderingAllowed(false);
+
+        // Defining Column Names on model
+
+        model.addColumn("ID");
+
+        model.addColumn("Section");
+
+        model.addColumn("Class Name");
+
+        model.addColumn("CrHrs");
+
+        model.addColumn("Instructor");
+
+        model.addColumn("Class Time");
+        model.addColumn("Days");
+        model.addColumn("Bldg/Room");
+
+
+        // Enable Scrolling on table
+
+        scrollpane = new JScrollPane(Table,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+
+                JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+
+        panel.add(scrollpane);
+
+
+
+        //Displaying Frame in Center of the Screen
+
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+
+        this.setLocation(dim.width/2-this.getSize().width/2,
+
+                dim.height/2-this.getSize().height/2);
+
+                addListeners();
 
         // Regular setup stuff for the JFrame window
         setContentPane(mainPanel);
@@ -115,7 +211,19 @@ public class CollegeGUI extends JFrame implements ActionListener {
         setVisible(true);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
+
     }
+        // Connection with Database
+
+    public void Connect() {
+
+
+
+        }
+
+         
+
+
 
     private void errorDialog(String msg) {
         JOptionPane.showMessageDialog(CollegeGUI.this, msg, "error", JOptionPane.ERROR_MESSAGE);
@@ -126,10 +234,11 @@ public class CollegeGUI extends JFrame implements ActionListener {
         // Defining column names on model
 
         DefaultTableModel tableModel = new DefaultTableModel();
-        tableModel.addColumn("courseID");
+
+        tableModel.addColumn("ID");
         tableModel.addColumn("sections");
         tableModel.addColumn("Class Name");
-        tableModel.addColumn("creditHours");
+        tableModel.addColumn("Cr/Hrs");
         tableModel.addColumn("Instructor");
         tableModel.addColumn("classTime");
         tableModel.addColumn("Days");
@@ -142,10 +251,10 @@ public class CollegeGUI extends JFrame implements ActionListener {
 
         public void actionPerformed(ActionEvent ae){
 
-        if(ae.getSource()==exitButton){
-            if(IDTextField.getText().equals("") || FirstNameTextField.getText().equals("") ||
-                    LastNameTextField.getText().equals("") || courseIDTextField.getText().equals("") ||
-            IDTextField.getText().equals(""))JOptionPane.showMessageDialog(IDTextField, "Fields will not Blank");
+        if(ae.getSource()== ExitButton){
+            if(IDTextField.getText().equals("") || SectionTextField.getText().equals("") ||
+                    ClassTimeTextField.getText().equals("") || CreditHoursTextField.getText().equals("") ||
+            InstructorTextField.getText().equals(""))JOptionPane.showMessageDialog(IDTextField, "Fields will not Blank");
             else{
 
                 //  Storing records in a List
