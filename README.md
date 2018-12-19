@@ -16,10 +16,11 @@ I am going to add the following components and corresponding names to CollegeGUI
 •	JTextField = enterCourseIdTextField. For the course student want to register or drop
 •	JButton = Register. Student will click this button to confirm registration for a class
 •	JButton = DropClassButton. Students will click this to drop a class.
-•	JTextField = enterFirsttNameTextField. For the student/instructor first name
-•	JTextField = enterMiddleNameTextField. For the student/instructor middle name
-•	JTextField = enterLastNameTextField. For the student/instructor last name
-•	JButton = MyscheduleButton. Student/Instructor will click on this to display schedule.
+•	JTextField = classNameTextField. For the class name
+•	JButton = RegisterButton. 
+.   JButton = UpdateButton.
+.   JButton = ExitButton.
+    
 
 The program assumes that students can enter only course ID to register for a class. Students will need to enter both student Id and full name to be able to search for student information. Instructors will also need to enter both ID and full name to be able to retrieve data from the database. Students cannot register for the same course more than once. If a student enters a class for which he/she is registered already, display an error message and prompts the student to try again. 
 
