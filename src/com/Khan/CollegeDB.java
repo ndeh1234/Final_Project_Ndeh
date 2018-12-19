@@ -12,13 +12,16 @@ public class CollegeDB {
 
     // Declare and innitialize table and  column  names
 
-    private static final String OK = "OK";
+    private static final String OK = "OK";                // Table names
     private static final String FirstName = "SFName";
     private static final String TABLE_NAME1 = "students";
     private static final String TABLE_NAME2 = "instructors";
     private static final String TABLE_NAME3 = "courses";
     private static final String TABLE_NAME4 = "sections";
     private static final String TABLE_NAME5 = "prerequisites";
+
+          // Column names
+
     static final String ID_COL = "courseID";
     static final String SECTION_COL = "section";
     static final String CNAME_COL = "className";
