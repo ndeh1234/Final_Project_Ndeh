@@ -43,8 +43,10 @@ public class CollegeDB {
                System.out.println("The driver name is " + metaData.getDriverName());
            } else{
                System.out.println("There is no connection");
+
+               con.close();
            }
-           
+
        } catch (SQLException e) {
 
            e.getMessage();
@@ -56,7 +58,7 @@ public class CollegeDB {
             try (Connection con = DriverManager.getConnection(URL)) {
                 Statement statement = con.createStatement();
 
-                String createTableSql = "CREATE TABLE IF NOT EXISTS courses (id INTEGER PRIMARY KEY, courseID TEXT, sections TEXT, className TEXT,creditHours int, Instructor TEXT,ClassTime TEXT, Days TEXT, bldgRoom TEXT ) ";
+                String createTableSql = "CREATE TABLE IF NOT EXISTS courses (id INTEGER PRIMARY KEY, courseID TEXT, sections TEXT NOT NULL, className TEXT NOT NULL,creditHours int NOT NULL, Instructor TEXT NOT NULL,ClassTime TEXT NOT NULL, Days TEXT NOT NULL, bldgRoom TEXT ) ";
                 statement.execute(createTableSql);
 
                                        // Populate courses table
@@ -83,12 +85,12 @@ public class CollegeDB {
 
                 // Create students table
 
-                String createTableSql = "CREATE TABLE IF NOT EXISTS students (id INTEGER PRIMARY KEY, studentID TEXT, sFName TEXT,sLName,className TEXT, Instructor TEXT,ClassTime TEXT, Days TEXT, bldgRoom TEXT )";
+                String createTableSql = "CREATE TABLE IF NOT EXISTS students (id INTEGER PRIMARY KEY, studentID TEXT NOT NULL,courseID NOT NULL,FOREIGN KEY(courseID) REFERENCES courses(courseID), sFName TEXT,sLName,className TEXT, Instructor TEXT,ClassTime TEXT, Days TEXT, bldgRoom TEXT )";
                 statement.execute(createTableSql);
 
                 // Populate students table
 
-                String insertDataSql = "INSERT INTO students(studentID,studentName, className,Instructor,ClassTime,Days,bldgRoom) VALUES('ITEC2545','Java Programing','Paul', 'Mark','Brian','9:45am-12:30pm','Tu/Wed','T3030')";
+                String insertDataSql = "INSERT INTO students(studentID, studentName, className,Instructor,ClassTime,Days,bldgRoom) VALUES('ITEC2545','Java Programing','Paul', 'Mark','Brian','9:45am-12:30pm','Tu/Wed','T3030')";
                 statement.execute(insertDataSql);
                 insertDataSql = "INSERT INTO students (studentID,sFName, sLName, className,Instructor,ClassTime,Days,bldgRoom) VALUES('ITEC2545','Java Programing','Henriette', 'Marie','Brian','9:45am-12:30pm','Tu/Wed','T3030')";
                 statement.execute(insertDataSql);
@@ -114,7 +116,7 @@ public class CollegeDB {
 
                 //  Create  instructors table
 
-                String createTableSql = " CREATE TABLE IF NOT EXISTS instructors (id INTEGER PRIMARY KEY, instructorID int, iFName TEXT, iLName TEXT, className TEXT,ClassTime TEXT, Days TEXT, bldgRoom TEXT )";
+                String createTableSql = " CREATE TABLE IF NOT EXISTS instructors (id INTEGER PRIMARY KEY, instructorID int NOT NULL, studentID TEXT NOT NULL,courseID NOT NULL,FOREIGN KEY(courseID) REFERENCES courses(courseID), iFName TEXT, iLName TEXT, className TEXT,ClassTime TEXT, Days TEXT, bldgRoom TEXT )";
                 statement.execute(createTableSql);
 
                 // Populate  instructor table
@@ -146,7 +148,7 @@ public class CollegeDB {
                 Statement statement = con.createStatement();
 
 
-                String createTableSql = " CREATE TABLE IF NOT EXISTS sections (id INTEGER PRIMARY KEY, sectionName, startTime TEXT, endTime TEXT, className TEXT, Days TEX )";
+                String createTableSql = " CREATE TABLE IF NOT EXISTS sections (id INTEGER PRIMARY KEY, studentID TEXT NOT NULL,courseID NOT NULL,FOREIGN KEY(courseID) REFERENCES courses(courseID),sectionName NOT NULL, startTime TEXT, endTime TEXT, className TEXT, Days TEX )";
                 statement.execute(createTableSql);
 
                 // Populate section table with data
@@ -173,7 +175,7 @@ public class CollegeDB {
                 Statement statement = con.createStatement();
 
 
-                String createTableSql = "CREATE TABLE IF NOT EXISTS prerequisites(id INTEGER PRIMARY KEY, courseID TEXT, className TEXT,creditHours, Instructor TEXT,ClassTime TEXT, Days TEXT, bldgRoom TEXT )";
+                String createTableSql = "CREATE TABLE IF NOT EXISTS prerequisites(id INTEGER PRIMARY KEY, NOT NULL, courseID NOT NULL,FOREIGN KEY(courseID) REFERENCES courses(courseID),className TEXT,creditHours, Instructor TEXT NOT NULL, FOREIGN KEY(InstructorID) REFERENCES Instructors(InstructorID),ClassTime TEXT, Days TEXT, bldgRoom TEXT )";
                 statement.execute(createTableSql);
 
                 // Populate prerequisites table with data

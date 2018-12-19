@@ -50,14 +50,13 @@ public class CollegeGUI extends JFrame {
 
     public CollegeGUI(Controller controller) {
 
+
         super("Online Registration Application");
+        this.controller=controller;
 
         // Calling connect method, this will connect us to the database
 
         Connect();
-
-       // this.controller = controller;
-
 
         // Defining Labels
 
