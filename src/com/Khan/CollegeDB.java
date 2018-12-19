@@ -35,14 +35,18 @@ public class CollegeDB {
 
    public static void main(String[] args) {
 
-    String url = "jdbc:sqlite:Colleges.sqlite";
+    String url = "jdbc:sqlite:College.db";
 
        try (Connection con = DriverManager.getConnection(url)) {
            if (con != null) {
                DatabaseMetaData metaData = con.getMetaData();
                System.out.println("The driver name is " + metaData.getDriverName());
+           } else{
+               System.out.println("There is no connection");
            }
+           
        } catch (SQLException e) {
+
            e.getMessage();
        }
 

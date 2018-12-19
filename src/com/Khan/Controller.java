@@ -21,7 +21,7 @@ public class Controller {
         ArrayList<CollegeProgram> allData = db.fetchAllRecords();
 
         gui = new CollegeGUI(this);
-        gui.setListData(allData);
+
     }
 
       ArrayList<CollegeProgram> getAllData(){
@@ -29,12 +29,5 @@ public class Controller {
 
       }
 
-      String addCollegeProgramToDB(CollegeProgram collegeProgram){
-        return db.addRecord(collegeProgram);
       }
 
-      void deleteCollegeProgram(CollegeProgram collegeProgram){
-
-           db.delete(collegeProgram );
-      }
-}

@@ -1,32 +1,28 @@
 package com.Khan;
 
+import sun.swing.SwingUtilities2;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.sql.*;
 import java.util.ArrayList;
 
-import static java.lang.Class.forName;
-import static sun.plugin.javascript.navig.JSType.URL;
 
-public class CollegeGUI extends JFrame  {
+public class CollegeGUI extends JFrame {
 
     Connection con;
     Statement stm;
-    PreparedStatement preStatement,updatePreStmt;
+    PreparedStatement preStatement, updatePreStmt;
 
     private JPanel mainPanel;
-    private JTextField collegeProgramNameText;
     private JButton DropButton;
-    private JTextField courseIDTextField;
-    private JList collegeProgramList;
-    private JTextField FirstNameTextField;
-    private JTextField LastNameTextField;
-    private JTextField CourseTextField;
+
     private JTextField IDTextField;
     private JTextField SectionTextField;
     private JTextField ClassNameTextField;
@@ -41,13 +37,13 @@ public class CollegeGUI extends JFrame  {
     private JTextField CreditHoursTextField;
     private JButton UpdateButton;
 
-  JPanel panel;
-   JTable tabel;
-   DefaultTableModel model;
+    JPanel panel;
+
+    DefaultTableModel model;
     JScrollPane scrollpane;
 
     private CollegeDB db;
-    DefaultListModel<CollegeProgram> allCollegeProgramListModel;  // Add List Model
+
     private Controller controller;
 
     // Defining Constructor
@@ -60,22 +56,20 @@ public class CollegeGUI extends JFrame  {
 
         Connect();
 
-       this.controller = controller;
-
+       // this.controller = controller;
 
 
         // Defining Labels
 
-         Title = new JLabel("Online Registration Application");
-         JLabel ID = new JLabel("ID");
+        Title = new JLabel("Online Registration Application");
+        JLabel ID = new JLabel("ID");
         JLabel Section = new JLabel("Section");
         JLabel ClassName = new JLabel("Class Name");
         JLabel CreditHours = new JLabel("CrHrs");
         JLabel Instructor = new JLabel("Instructor");
         JLabel ClassTime = new JLabel("Class Time");
         JLabel Days = new JLabel("Days");
-        JLabel bldgRoom = new JLabel ("Bldg/Room");
-
+        JLabel bldgRoom = new JLabel("Bldg/Room");
 
 
         // Defining  Fields
@@ -101,7 +95,6 @@ public class CollegeGUI extends JFrame  {
         BldgRoomTextField = new JTextField();
 
 
-
         // Fixing all Labels and TextFields
 
         add(Title);
@@ -115,13 +108,10 @@ public class CollegeGUI extends JFrame  {
         add(bldgRoom);
 
 
-
         // Defining Register Button
 
         RegisterButton = new JButton("Register");
 
-
-        //RegisterButton.addActionListener();
 
         // Defining Drop Button
 
@@ -143,14 +133,14 @@ public class CollegeGUI extends JFrame  {
 
         // Fixing all Buttons
 
-         add(RegisterButton);
-         add(DropButton);
-         add(ExitButton);
-         add(UpdateButton);
+        add(RegisterButton);
+        add(DropButton);
+        add(ExitButton);
+        add(UpdateButton);
 
         // Defining Panel
 
-        panel= new JPanel();
+        panel = new JPanel();
         panel.setLayout(new GridLayout());
         panel.setBorder(BorderFactory.createDashedBorder(Color.GREEN));
         add(panel);
@@ -161,7 +151,7 @@ public class CollegeGUI extends JFrame  {
 
         // Adding Object of DefaultTabletModel into JTable
 
-         Table = new JTable((TableModel) model);
+        Table = new JTable((TableModel) model);
 
 
         //Fixing Columns move
@@ -187,23 +177,7 @@ public class CollegeGUI extends JFrame  {
 
         // Enable Scrolling on table
 
-        scrollpane = new JScrollPane(Table,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 
-                JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-
-        panel.add(scrollpane);
-
-
-
-        //Displaying Frame in Center of the Screen
-
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-
-        this.setLocation(dim.width/2-this.getSize().width/2,
-
-                dim.height/2-this.getSize().height/2);
-
-                addListeners();
 
         // Regular setup stuff for the JFrame window
         setContentPane(mainPanel);
@@ -213,16 +187,13 @@ public class CollegeGUI extends JFrame  {
 
 
     }
-        // Connection with Database
+    // Connection with Database
 
     public void Connect() {
 
 
 
-        }
-
-         
-
+    }
 
 
     private void errorDialog(String msg) {
@@ -246,26 +217,211 @@ public class CollegeGUI extends JFrame  {
 
 
 
-    }
+        ExitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                try {
+
+                    con.close();
+
+                    System.exit(0);
+
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+            }
+
+        });
+
+            RegisterButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent ae) {
+
+                    try{
+
+                        if (ae.getSource() == RegisterButton) {
+
+                            if (SectionTextField.getText().equals(""))
+
+                                JOptionPane.showMessageDialog(IDTextField,
+
+                                        "Please provide Section_TextFieldField");
+
+                            else if(ClassNameTextField.getText().equals(""))
+
+                                JOptionPane.showMessageDialog(IDTextField,
+
+                                        "Please provide ClassName_Field");
+
+                            else if(CreditHoursTextField.getText().equals(""))
+                                JOptionPane.showMessageDialog(IDTextField, "Please provide CreditHours_TextField");
+
+                            else if(InstructorTextField.equals(""))
+
+                                JOptionPane.showMessageDialog(IDTextField, "Please provide Instructor_TextField");
+                            else if(ClassTimeTextField.getText().equals(""))
+                                JOptionPane.showMessageDialog(IDTextField,"Please provide class_Time_FieldTextField");
+                            else if(BldgRoomTextField.getText().equals("Please provide BldgRoom_TextField"));
 
 
-        public void actionPerformed(ActionEvent ae){
+                            else {
 
-        if(ae.getSource()== ExitButton){
-            if(IDTextField.getText().equals("") || SectionTextField.getText().equals("") ||
-                    ClassTimeTextField.getText().equals("") || CreditHoursTextField.getText().equals("") ||
-            InstructorTextField.getText().equals(""))JOptionPane.showMessageDialog(IDTextField, "Fields will not Blank");
-            else{
+                                //Fetching column values from Database
+
+                                preStatement.setString(1,IDTextField.getText());
+
+                                preStatement.setString(2, SectionTextField.getText());
+
+                                preStatement.setString(3,ClassNameTextField.getText());
+
+                                preStatement.setString(4,CreditHoursTextField.getText());
+                                preStatement.setString(5, InstructorTextField.getText());
+                                preStatement.setString(7,ClassTimeTextField.getText());
+                                preStatement.setString(8, DaysTextField.getText());
+                                preStatement.setString(9,BldgRoomTextField.getText());
+
+
+                                //Executing SQLITE Update Query
+
+                                int i = preStatement.executeUpdate();
+
+                                if(i==1){
+
+                                    JOptionPane.showMessageDialog(panel,
+
+                                            "Successfully Registered");
+
+                                }
+
+
+                            }
+
+                }
+            } catch (SQLException e) {
+                        e.printStackTrace();
+                    };
+
+
+           UpdateButton.addActionListener(new ActionListener() {
+               @Override
+               public void actionPerformed(ActionEvent e) {
+
+
+                   if (SectionTextField.getText().equals(""))
+
+                       JOptionPane.showMessageDialog(IDTextField,
+
+                               "Please provide Section_TextField");
+
+                   else if(ClassNameTextField.getText().equals(""))
+
+                       JOptionPane.showMessageDialog(IDTextField,
+
+                               "Please provide ClassName_TextField");
+
+                   else if(CreditHoursTextField.getText().equals(""))
+
+                       JOptionPane.showMessageDialog(IDTextField,
+
+                               "Please provide CreditHours_TextField");
+
+                   else if(InstructorTextField.equals(""))
+
+                       JOptionPane.showMessageDialog(IDTextField,
+
+                               "Please Instructor TextField");
+                   else if(InstructorTextField.equals(""))
+
+                       JOptionPane.showMessageDialog(IDTextField, "Please provide Instructor_TextField");
+                   else if(ClassTimeTextField.getText().equals(""))
+                       JOptionPane.showMessageDialog(IDTextField,"Please provide class_Time_FieldTextField");
+                   else if(BldgRoomTextField.getText().equals("Please provide BldgRoom_TextField"));
+
+                   else {
+                       int r = Table.getSelectedRow();
+
+                       try{
+
+                           if(r>=0) {
+
+
+                               String id = (String) Table.getModel().
+
+                                       getValueAt(r, 1);
+
+
+                              // updatePreStmt = (PreparedStatement) con.prepareStatement(
+
+
+
+                               updatePreStmt.setString(2,ClassNameTextField.getText());
+
+                               updatePreStmt.setString(3,CreditHoursTextField.getText());
+
+                               updatePreStmt.setString(4,InstructorTextField.getText());
+
+                               updatePreStmt.setString(5,ClassTimeTextField.getText() );
+                               updatePreStmt.setString(6, DaysTextField.getText());
+                               updatePreStmt.setString(7,BldgRoomTextField.getText());
+
+                               int i = 0;
+                               try {
+
+                                   i = updatePreStmt.executeUpdate();
+
+                               } catch (SQLException e1) {
+                                   e1.printStackTrace();
+                               }
+
+                               if(i==1){
+                                  Table.setValueAt(SectionTextField.getText(),r,2);
+
+                                   Table.setValueAt(ClassNameTextField.getText(), r, 3);
+
+                                   Table.setValueAt(InstructorTextField.getText(),r,4);
+                                   Table.setValueAt(CreditHoursTextField.getText(),r,5);
+                                   Table.setValueAt(InstructorTextField.getText(), r, 6);
+                                   Table.setValueAt(ClassTimeTextField.getText(), r, 7);
+                                   Table.setValueAt(DaysTextField.getText(), r,8);
+                                   Table.setValueAt(BldgRoomTextField.getText(),r,9);
+
+
+                               }
+
+                               else JOptionPane.showMessageDialog(panel,
+
+                                       "ID does't Exists in Database");
+
+
+                       }
+
+
+
+
+                   } catch (SQLException e1) {
+                           e1.printStackTrace();
+                       }
+
+
+
+
 
                 //  Storing records in a List
 
 
 
-            }
-        }
-        }
+            };
 
-    public void setListData(ArrayList<CollegeProgram> allData) {
+
+
 
     }
+
+
+
+});}});}
+
+
 }
+
