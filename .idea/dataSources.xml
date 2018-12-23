@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="CollegeDB" uuid="3cca714a-07b8-464f-9667-892b0c03ba71">
+    <data-source source="LOCAL" name="college.db" uuid="87f249f8-3ba8-4a72-b193-8feb5505357b">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/src/com/Khan/CollegeDB.java</jdbc-url>
+      <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/out/production/Final_Project_Ndeh/com/Khan/CollegeDB.class</jdbc-url>
       <driver-properties>
         <property name="enable_load_extension" value="true" />
       </driver-properties>
     </data-source>
-    <data-source source="LOCAL" name="College.db" uuid="db77cf96-dc94-4030-9106-2d8ba48aa224">
+    <data-source source="LOCAL" name="college_test.db" uuid="22f12cce-f7cc-4b96-bf6f-864f63c0c84e">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/src/com/Khan/CollegeDB.java</jdbc-url>
+      <jdbc-url>jdbc:sqlite:C:\Users\nhann\IdeaProjects\Final_Project_Ndeh\src\com\Main.java</jdbc-url>
       <driver-properties>
         <property name="enable_load_extension" value="true" />
       </driver-properties>

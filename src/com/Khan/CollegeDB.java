@@ -37,8 +37,7 @@ public class CollegeDB {
 
 
    public static void main(String[] args) {
-
-    String url = "jdbc:sqlite:College.db";
+       String url = "jdbc:sqlite:College.db";
 
        try (Connection con = DriverManager.getConnection(url)) {
            if (con != null) {
